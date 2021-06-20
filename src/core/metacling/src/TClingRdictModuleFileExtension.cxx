@@ -15,6 +15,9 @@
  * For the list of contributors see $ROOTSYS/README/CREDITS.             *
  *************************************************************************/
 
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
+
 #include "TClingRdictModuleFileExtension.h"
 
 #include "TClingUtils.h"
