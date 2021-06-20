@@ -38,6 +38,7 @@ set(LIBS
   clangRewriteFrontend
   clangSerialization
   clangAST
+  clangASTMatchers
   clangBasic
   clangLex
 )
