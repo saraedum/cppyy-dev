@@ -17,6 +17,11 @@ Cling is a full ANSI compliant C++-11 interpreter based on
 clang/LLVM technology.
 */
 
+#ifndef __STDC_FORMAT_MACROS
+#define __STDC_FORMAT_MACROS
+#endif
+#include <inttypes.h>
+
 #include "TCling.h"
 
 #include "ROOT/FoundationUtils.hxx"
