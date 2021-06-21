@@ -478,17 +478,59 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
     endif()
   endif()
 
-  #---call rootcint------------------------------------------
-  add_custom_command(OUTPUT ${dictionary}.cxx ${pcm_name} ${rootmap_name} ${cpp_module_file}
-                     COMMAND ${command} -v2 -f  ${dictionary}.cxx ${newargs} ${excludepathsargs} ${rootmapargs}
-                                        ${definitions} "$<$<BOOL:${module_defs}>:-D$<JOIN:${module_defs},;-D>>"
-                                        ${includedirs} "$<$<BOOL:${module_incs}>:-I$<JOIN:${module_incs},;-I>>"
-                                        ${ARG_OPTIONS} ${headerfiles} ${_linkdef}
-                     IMPLICIT_DEPENDS ${_implicitdeps}
-                     DEPENDS ${_list_of_header_dependencies} ${_linkdef} ${ROOTCINTDEP}
-                             ${MODULE_LIB_DEPENDENCY} ${ARG_EXTRA_DEPENDENCIES}
-                             ${runtime_cxxmodule_dependencies}
-                     COMMAND_EXPAND_LISTS)
+  if(CAN_RUN_BUILT_BINARIES)
+    #---call rootcling------------------------------------------
+    add_custom_command(OUTPUT ${dictionary}.cxx ${pcm_name} ${rootmap_name} ${cpp_module_file}
+                       COMMAND ${command} -v2 -f  ${dictionary}.cxx ${newargs} ${excludepathsargs} ${rootmapargs}
+                                          ${definitions} "$<$<BOOL:${module_defs}>:-D$<JOIN:${module_defs},;-D>>"
+                                          ${includedirs} "$<$<BOOL:${module_incs}>:-I$<JOIN:${module_incs},;-I>>"
+                                          ${ARG_OPTIONS} ${headerfiles} ${_linkdef}
+                       IMPLICIT_DEPENDS ${_implicitdeps}
+                       DEPENDS ${_list_of_header_dependencies} ${_linkdef} ${ROOTCINTDEP}
+                              ${MODULE_LIB_DEPENDENCY} ${ARG_EXTRA_DEPENDENCIES}
+                              ${runtime_cxxmodule_dependencies}
+                       COMMAND_EXPAND_LISTS)
+  else()
+    function(copy_static_asset fname)
+      if ("${fname}" STREQUAL "")
+        return()
+      endif()
+
+      # Compute a reasonable cmake identifier from fname, i.e., turn x/something.cxx into SOMETHING_CXX
+      get_filename_component(identifier "${fname}" NAME)
+      string(REGEX REPLACE "([^A-Za-z0-9]|_)+" "_" identifier "${identifier}")
+      string(TOUPPER "${identifier}" identifier)
+      set(identifier "STATIC_${identifier}")
+
+      # Copy a pregenerated file to fname
+      set("${identifier}" "" CACHE PATH "Path to rootcling generated ${fname}")
+      if("${${identifier}}" STREQUAL "")
+        message(FATAL_ERROR "When cross-compiling, ${fname} cannot be created and must be provided with -D${identifier} to cmake")
+      endif()
+
+      add_custom_command(OUTPUT ${fname}
+                         COMMAND ${CMAKE_COMMAND} -E copy
+                         ${${identifier}}
+                         ${fname}
+                         IMPLICIT_DEPENDS ${_implicitdeps}
+                         DEPENDS ${_list_of_header_dependencies} ${_linkdef} ${ROOTCINTDEP}
+                                 ${MODULE_LIB_DEPENDENCY} ${ARG_EXTRA_DEPENDENCIES}
+                                 ${runtime_cxxmodule_dependencies}
+                         COMMAND_EXPAND_LISTS
+                         COMMENT "Copying prebuilt user-provided ${${identifier}} to ${fname}"
+      )
+    endfunction()
+
+    copy_static_asset("${dictionary}.cxx")
+    copy_static_asset("${pcm_name}")
+    copy_static_asset("${rootmap_name}")
+    copy_static_asset("${cpp_module_file}")
+
+    unset(copy_static_asset)
+  endif()
+
+  # Make sure the files are built so we could install them.
+  add_custom_target("${dictionary}_sources" ALL DEPENDS ${dictionary}.cxx ${pcm_name} ${rootmap_name} ${cpp_module_file})
 
   # If we are adding to an existing target and it's not the dictionary itself,
   # we make an object library and add its output object file as source to the target.
@@ -509,8 +551,11 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
     target_include_directories(${dictionary} PRIVATE
       ${includedirs} $<TARGET_PROPERTY:${ARG_MODULE},INCLUDE_DIRECTORIES>)
   else()
-    add_custom_target(${dictionary} DEPENDS ${dictionary}.cxx ${pcm_name} ${rootmap_name} ${cpp_module_file})
+    add_custom_target(${dictionary} DEPENDS ${dictionary}.cxx)
   endif()
+
+  # Explicitly make the dictionary depend on all sources so that rootcling does not get invoked twice for the generation.
+  add_dependencies(${dictionary} "${dictionary}_sources")
 
   if(PROJECT_NAME STREQUAL "ROOT")
     set_property(GLOBAL APPEND PROPERTY ROOT_PCH_DEPENDENCIES ${dictionary})
@@ -527,6 +572,7 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
   endif()
 
   if(NOT ARG_NOINSTALL AND NOT CMAKE_ROOTTEST_DICT AND DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+
     ROOT_GET_INSTALL_DIR(shared_lib_install_dir)
     # Install the C++ module if we generated one.
     if (cpp_module_file)

@@ -23,6 +23,14 @@ include(cmake/modules/CaptureCommandLine.cmake)
 
 project(ROOT)
 
+include(CheckCXXSourceRuns)
+
+# Detect whether freshly built binaries can be executed (respects cross emulators)
+if(NOT DEFINED CAN_RUN_BUILT_BINARIES)
+  check_cxx_source_runs("int main() { return 0; }" CAN_RUN_BUILT_BINARIES)
+endif()
+message(STATUS "Can run built binaries: ${CAN_RUN_BUILT_BINARIES}")
+
 #---Set the locale to default C to prevent issued due to localization of commands---------------
 # This is necessary as we for example call `clang -v` and parse its output. But on a localized
 # program, the output parsing is much more error prone as certrain strings we're looking for
@@ -379,26 +387,32 @@ else()
   get_property(__pch_dependencies GLOBAL PROPERTY ROOT_PCH_DEPENDENCIES)
   get_property(__pch_dictionaries GLOBAL PROPERTY ROOT_PCH_DICTIONARIES)
 
-  add_custom_command(OUTPUT etc/allDict.cxx.pch
-    BYPRODUCTS
-      etc/dictpch/allCppflags.txt
-      etc/dictpch/allHeaders.h
-      etc/dictpch/allLinkDefs.h
+  add_custom_command(OUTPUT etc/dictpch/allCppflags.txt etc/dictpch/allHeaders.h etc/dictpch/allLinkDefs.h
     COMMAND
       ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/build/unix/makepchinput.py
       ${CMAKE_SOURCE_DIR} . ${pyroot_experimental} ${__cling_pch} -- ${CMAKE_CXX_FLAGS_SEPARATE}
-    COMMAND
-      ${CMAKE_COMMAND} -E env ROOTIGNOREPREFIX=1 ${PYTHON_EXECUTABLE}
-      ${CMAKE_SOURCE_DIR}/etc/dictpch/makepch.py etc/allDict.cxx.pch
-      ${__allIncludes} -I${CMAKE_BINARY_DIR}/include
     DEPENDS
-      rootcling ${__pch_dependencies} ${__pch_dictionaries}
+      ${__pch_dependencies} ${__pch_dictionaries}
       ${CMAKE_SOURCE_DIR}/build/unix/makepchinput.py
-      ${CMAKE_SOURCE_DIR}/etc/dictpch/makepch.py
   )
-  add_custom_target(onepcm ALL DEPENDS etc/allDict.cxx.pch)
-  install(FILES ${CMAKE_BINARY_DIR}/etc/allDict.cxx.pch DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
+  add_custom_target(onepcm ALL DEPENDS etc/dictpch/allCppflags.txt etc/dictpch/allHeaders.h etc/dictpch/allLinkDefs.h)
   install(DIRECTORY ${CMAKE_BINARY_DIR}/etc/dictpch DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
+
+  if(CAN_RUN_BUILT_BINARIES)
+    # Use the native rootcling to build allDict.cxx.pch. If we do not build it here, cppyy builds it upon its first import.
+    add_custom_command(OUTPUT etc/allDict.cxx.pch
+      COMMAND
+        ${CMAKE_COMMAND} -E env ROOTIGNOREPREFIX=1 ${PYTHON_EXECUTABLE}
+        ${CMAKE_SOURCE_DIR}/etc/dictpch/makepch.py etc/allDict.cxx.pch
+        ${__allIncludes} -I${CMAKE_BINARY_DIR}/include
+      DEPENDS
+        rootcling etc/dictpch/allCppflags.txt etc/dictpch/allHeaders.h etc/dictpch/allLinkDefs.h
+        ${CMAKE_SOURCE_DIR}/etc/dictpch/makepch.py
+    )
+    add_custom_target(allDictPCH DEPENDS etc/allDict.cxx.pch)
+    add_dependencies(onepcm allDictPCH)
+    install(FILES ${CMAKE_BINARY_DIR}/etc/allDict.cxx.pch DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
+  endif()
 endif()
 
 # FIXME: move installation of PCMS in ROOT_GENERATE_DICTIONARY().
