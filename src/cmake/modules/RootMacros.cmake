@@ -391,13 +391,13 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
   set(cpp_module)
   set(library_name ${libprefix}${library_target_name}${libsuffix})
   set(newargs -s ${library_output_dir}/${library_name})
-  set(rootmap_name ${library_output_dir}/${libprefix}${library_target_name}.rootmap)
+  set(rootmap_name ${libprefix}${library_target_name}.rootmap)
   set(pcm_name ${library_output_dir}/${libprefix}${library_target_name}_rdict.pcm)
   if(ARG_MODULE)
     if(ARG_MULTIDICT)
       set(newargs ${newargs} -multiDict)
       set(pcm_name ${library_output_dir}/${libprefix}${library_target_name}_${dictionary}_rdict.pcm)
-      set(rootmap_name ${library_output_dir}/${libprefix}${library_target_name}32.rootmap)
+      set(rootmap_name ${libprefix}${library_target_name}32.rootmap)
     else()
       set(cpp_module ${library_target_name})
     endif(ARG_MULTIDICT)
@@ -479,16 +479,13 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
   endif()
 
   #---call rootcint------------------------------------------
-  add_custom_command(OUTPUT ${dictionary}.cxx ${pcm_name} ${rootmap_name} ${cpp_module_file}
-                     COMMAND ${command} -v2 -f  ${dictionary}.cxx ${newargs} ${excludepathsargs} ${rootmapargs}
-                                        ${definitions} "$<$<BOOL:${module_defs}>:-D$<JOIN:${module_defs},;-D>>"
-                                        ${includedirs} "$<$<BOOL:${module_incs}>:-I$<JOIN:${module_incs},;-I>>"
-                                        ${ARG_OPTIONS} ${headerfiles} ${_linkdef}
-                     IMPLICIT_DEPENDS ${_implicitdeps}
-                     DEPENDS ${_list_of_header_dependencies} ${_linkdef} ${ROOTCINTDEP}
-                             ${MODULE_LIB_DEPENDENCY} ${ARG_EXTRA_DEPENDENCIES}
-                             ${runtime_cxxmodule_dependencies}
-                     COMMAND_EXPAND_LISTS)
+  add_custom_command(OUTPUT ${dictionary}.cxx ${rootmap_name}
+                     COMMAND ${CMAKE_COMMAND} -E copy
+                     $ENV{RECIPE_DIR}/rootcling/${dictionary}.cxx
+                     ${CMAKE_CURRENT_BINARY_DIR}/${dictionary}.cxx
+                     COMMAND ${CMAKE_COMMAND} -E copy
+                     $ENV{RECIPE_DIR}/rootcling/${rootmap_name}
+                     ${CMAKE_CURRENT_BINARY_DIR}/${rootmap_name})
 
   # If we are adding to an existing target and it's not the dictionary itself,
   # we make an object library and add its output object file as source to the target.
@@ -509,7 +506,7 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
     target_include_directories(${dictionary} PRIVATE
       ${includedirs} $<TARGET_PROPERTY:${ARG_MODULE},INCLUDE_DIRECTORIES>)
   else()
-    add_custom_target(${dictionary} DEPENDS ${dictionary}.cxx ${pcm_name} ${rootmap_name} ${cpp_module_file})
+    add_custom_target(${dictionary} DEPENDS ${dictionary}.cxx ${rootmap_name})
   endif()
 
   if(PROJECT_NAME STREQUAL "ROOT")
@@ -528,19 +525,9 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
 
   if(NOT ARG_NOINSTALL AND NOT CMAKE_ROOTTEST_DICT AND DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY)
     ROOT_GET_INSTALL_DIR(shared_lib_install_dir)
-    # Install the C++ module if we generated one.
-    if (cpp_module_file)
-      install(FILES ${cpp_module_file}
-                    DESTINATION ${shared_lib_install_dir} COMPONENT libraries)
-    endif()
 
-    if(ARG_STAGE1)
-      install(FILES ${rootmap_name}
-                    DESTINATION ${shared_lib_install_dir} COMPONENT libraries)
-    else()
-      install(FILES ${pcm_name} ${rootmap_name}
-                    DESTINATION ${shared_lib_install_dir} COMPONENT libraries)
-    endif()
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${rootmap_name}
+                  DESTINATION ${shared_lib_install_dir} COMPONENT libraries)
   endif()
 
   if(ARG_BUILTINS)

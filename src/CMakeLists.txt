@@ -379,25 +379,17 @@ else()
   get_property(__pch_dependencies GLOBAL PROPERTY ROOT_PCH_DEPENDENCIES)
   get_property(__pch_dictionaries GLOBAL PROPERTY ROOT_PCH_DICTIONARIES)
 
-  add_custom_command(OUTPUT etc/allDict.cxx.pch
-    BYPRODUCTS
-      etc/dictpch/allCppflags.txt
-      etc/dictpch/allHeaders.h
-      etc/dictpch/allLinkDefs.h
+  add_custom_command(OUTPUT etc/dictpch/allCppflags.txt etc/dictpch/allHeaders.h etc/dictpch/allLinkDefs.h
     COMMAND
       ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/build/unix/makepchinput.py
       ${CMAKE_SOURCE_DIR} . ${pyroot_experimental} ${__cling_pch} -- ${CMAKE_CXX_FLAGS_SEPARATE}
-    COMMAND
-      ${CMAKE_COMMAND} -E env ROOTIGNOREPREFIX=1 ${PYTHON_EXECUTABLE}
-      ${CMAKE_SOURCE_DIR}/etc/dictpch/makepch.py etc/allDict.cxx.pch
-      ${__allIncludes} -I${CMAKE_BINARY_DIR}/include
     DEPENDS
       rootcling ${__pch_dependencies} ${__pch_dictionaries}
       ${CMAKE_SOURCE_DIR}/build/unix/makepchinput.py
       ${CMAKE_SOURCE_DIR}/etc/dictpch/makepch.py
   )
-  add_custom_target(onepcm ALL DEPENDS etc/allDict.cxx.pch)
-  install(FILES ${CMAKE_BINARY_DIR}/etc/allDict.cxx.pch DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
+  add_custom_target(onepcm ALL DEPENDS etc/dictpch/allCppflags.txt)
+  install(FILES "${CMAKE_BINARY_DIR}/etc/dictpch/allCppflags.txt" "${CMAKE_BINARY_DIR}/etc/dictpch/allHeaders.h" "${CMAKE_BINARY_DIR}/etc/dictpch/allLinkDefs.h" DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/dictpch)
   install(DIRECTORY ${CMAKE_BINARY_DIR}/etc/dictpch DESTINATION ${CMAKE_INSTALL_SYSCONFDIR})
 endif()
 
