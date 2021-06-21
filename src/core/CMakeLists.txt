@@ -55,6 +55,7 @@ include_directories(
   meta/inc
   gui/inc
   textinput/inc
+  thread/inc
 )
 
 set(objectlibs $<TARGET_OBJECTS:Base>
