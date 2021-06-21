@@ -253,7 +253,11 @@ class my_install(_install):
 
      # remove allDict.cxx.pch as it's not portable (rebuild on first run, see cppyy)
         log.info('removing allDict.cxx.pch')
-        os.remove(os.path.join(get_prefix(), 'etc', 'allDict.cxx.pch'))
+        allDictPath = os.path.join(get_prefix(), 'etc', 'allDict.cxx.pch')
+        try:
+            os.remove(allDictPath)
+        except FileNotFoundError:
+            print(f"The precompiled header {allDictPath} is not present. This is expected when cross-compiling.")
      # fix-up the standard reported by cling-config (which calls root-config): if C++14
      # was requested, LLVM16 (and thus ROOT) will up it 17; and for manylinux,# which
      # was build with 17, reset the default cxxversion to 20 if no user override
