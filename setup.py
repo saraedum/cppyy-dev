@@ -75,7 +75,7 @@ class my_build_cpplib(_build_ext):
         if not os.path.exists(self.build_temp):
             log.info('creating %s', self.build_temp)
             os.makedirs(self.build_temp)
-        extra_postargs = ['-O2']+get_cflags().split()
+        extra_postargs = ['-O2', '-pthread', '-std=c++17']
         if 'win32' in sys.platform:
         # /EHsc and sometimes /MT are hardwired in distutils, but the compiler/linker will
         # let the last argument take precedence
