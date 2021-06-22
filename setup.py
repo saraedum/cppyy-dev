@@ -154,7 +154,5 @@ setup(
     #    ],
     #},
 
-    cmdclass=cmdclass,
-
     zip_safe=False,
 )
