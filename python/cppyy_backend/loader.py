@@ -117,7 +117,7 @@ def set_cling_compile_options(add_defaults = False):
 
     if add_defaults:
        # M1 does not support -march=native until LLVM 15
-        if sys.platform != sys.platform or not 'arm64' in platform.machine():
+        if sys.platform != sys.platform or ('arm64' not in platform.machine() and 'aarch64' not in platform.machine()):
             CURRENT_ARGS += ' -O2 -march=native'
         else:
             CURRENT_ARGS += ' -O2'
