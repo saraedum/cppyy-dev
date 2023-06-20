@@ -43,8 +43,8 @@ set(LIBS
         clangAST
         clangBasic
         clangCodeGen
-        clangDriver
         clangFrontend
+        clangDriver
         clangLex
         clangParse
         clangSema

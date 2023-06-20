@@ -9,8 +9,8 @@
 set(LIBS
   clingUtils
   clangCodeGen
-  clangDriver
   clangFrontend
+  clangDriver
   clangParse
   clangSema
   clangAnalysis
