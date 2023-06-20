@@ -12,8 +12,8 @@ set(SOURCES
 
 set(LIBS
   clangAnalysis
-  clangDriver
   clangFrontend
+  clangDriver
   clangParse
   clangSema
   clangAST
