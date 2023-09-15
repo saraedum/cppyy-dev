@@ -22,7 +22,13 @@ else()
   set_source_files_properties(src/rootcling.cxx PROPERTIES COMPILE_FLAGS "-DNOMINMAX -D_XKEYCHECK_H")
 endif()
 
-ROOT_EXECUTABLE(rootcling src/rootcling.cxx LIBRARIES RIOLegacy Cling CoreLegacy)
+if(builtin_llvm)
+  set(llvm_libs "")
+else()
+  llvm_map_components_to_libnames(llvm_libs all)
+endif()
+
+ROOT_EXECUTABLE(rootcling src/rootcling.cxx LIBRARIES RIOLegacy Cling CoreLegacy ${llvm_libs} z dl)
 
 target_include_directories(rootcling PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/../core/metacling/res

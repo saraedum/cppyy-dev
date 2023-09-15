@@ -30,12 +30,18 @@ if(NOT builtin_clang)
   link_directories("${LLVM_LIBRARY_DIR}")
 endif()
 
+if(builtin_llvm)
+  set(llvm_libs "")
+else()
+  llvm_map_components_to_libnames(llvm_libs all)
+endif()
+
 ROOT_EXECUTABLE(rootcling_stage1 src/rootcling_stage1.cxx
                               $<TARGET_OBJECTS:Clib>
                               $<TARGET_OBJECTS:ClingUtils>
                               $<TARGET_OBJECTS:Dictgen>
                               $<TARGET_OBJECTS:Foundation_Stage1>
-                              LIBRARIES ${CLING_LIBRARIES} ${LINK_LIBS} ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} ${ROOT_ATOMIC_LIBS}
+                              LIBRARIES ${CLING_LIBRARIES} ${LINK_LIBS} ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} ${ROOT_ATOMIC_LIBS} ${llvm_libs}
                               NOINSTALL)
 set_target_properties(rootcling_stage1 PROPERTIES RUNTIME_OUTPUT_DIRECTORY src)
 add_dependencies(rootcling_stage1 ClingUtils)

@@ -77,11 +77,17 @@ if(NOT builtin_clang)
   link_directories("${LLVM_LIBRARY_DIR}")
 endif()
 
+if(builtin_llvm)
+  set(llvm_libs "")
+else()
+  llvm_map_components_to_libnames(llvm_libs all)
+endif()
+
 ROOT_LINKER_LIBRARY(Cling
         $<TARGET_OBJECTS:ClingUtils>
         $<TARGET_OBJECTS:Dictgen>
         $<TARGET_OBJECTS:MetaCling>
-        LIBRARIES ${CLING_LIBRARIES} ${LINK_LIBS} ${CLING_PLUGIN_LINK_LIBS})
+        LIBRARIES ${CLING_LIBRARIES} ${LINK_LIBS} ${CLING_PLUGIN_LINK_LIBS} ${llvm_libs})
 
 
 if(MSVC)
