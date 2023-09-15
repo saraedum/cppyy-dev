@@ -77,11 +77,13 @@ if(NOT builtin_clang)
   link_directories("${LLVM_LIBRARY_DIR}")
 endif()
 
+llvm_map_components_to_libnames(llvm_libs AArch64AsmParser AArch64CodeGen AArch64Desc AArch64Disassembler AArch64Info AArch64Utils AggressiveInstCombine AMDGPUAsmParser AMDGPUCodeGen AMDGPUDesc AMDGPUDisassembler AMDGPUInfo AMDGPUUtils Analysis ARMAsmParser ARMCodeGen ARMDesc ARMDisassembler ARMInfo ARMUtils AsmParser AsmPrinter AVRAsmParser AVRCodeGen AVRDesc AVRDisassembler AVRInfo BinaryFormat BitReader BitstreamReader BitWriter BPFAsmParser BPFCodeGen BPFDesc BPFDisassembler BPFInfo CFGuard CFIVerify CodeGen Core Coroutines Coverage DebugInfoCodeView DebugInfoDWARF DebugInfoGSYM DebugInfoMSF DebugInfoPDB Demangle DlltoolDriver DWARFLinker DWP ExecutionEngine Exegesis ExegesisAArch64 ExegesisMips ExegesisPowerPC ExegesisX86 Extensions FileCheck FrontendOpenACC FrontendOpenMP FuzzMutate GlobalISel HexagonAsmParser HexagonCodeGen HexagonDesc HexagonDisassembler HexagonInfo InstCombine Instrumentation InterfaceStub Interpreter ipo IRReader JITLink LanaiAsmParser LanaiCodeGen LanaiDesc LanaiDisassembler LanaiInfo LibDriver LineEditor Linker LTO MC MCA MCACustomBehaviourAMDGPU MCDisassembler MCJIT MCParser MipsAsmParser MipsCodeGen MipsDesc MipsDisassembler MipsInfo MIRParser MSP430AsmParser MSP430CodeGen MSP430Desc MSP430Disassembler MSP430Info NVPTXCodeGen NVPTXDesc NVPTXInfo ObjCARCOpts Object ObjectYAML Option OrcJIT OrcShared OrcTargetProcess Passes PowerPCAsmParser PowerPCCodeGen PowerPCDesc PowerPCDisassembler PowerPCInfo ProfileData Remarks RISCVAsmParser RISCVCodeGen RISCVDesc RISCVDisassembler RISCVInfo RuntimeDyld ScalarOpts SelectionDAG SparcAsmParser SparcCodeGen SparcDesc SparcDisassembler SparcInfo Support Symbolize SystemZAsmParser SystemZCodeGen SystemZDesc SystemZDisassembler SystemZInfo TableGen TableGenGlobalISel Target TextAPI TransformUtils Vectorize WebAssemblyAsmParser WebAssemblyCodeGen WebAssemblyDesc WebAssemblyDisassembler WebAssemblyInfo WebAssemblyUtils WindowsManifest X86AsmParser X86CodeGen X86Desc X86Disassembler X86Info XCoreCodeGen XCoreDesc XCoreDisassembler XCoreInfo XRay)
+
 ROOT_LINKER_LIBRARY(Cling
         $<TARGET_OBJECTS:ClingUtils>
         $<TARGET_OBJECTS:Dictgen>
         $<TARGET_OBJECTS:MetaCling>
-        LIBRARIES ${CLING_LIBRARIES} ${LINK_LIBS} ${CLING_PLUGIN_LINK_LIBS})
+        LIBRARIES ${CLING_LIBRARIES} ${LINK_LIBS} ${CLING_PLUGIN_LINK_LIBS} ${llvm_libs} ${llvm_libs} ${llvm_libs} ${llvm_libs} ${llvm_libs} ${llvm_libs} ${llvm_libs} ${llvm_libs} ${llvm_libs} z dl)
 
 
 if(MSVC)
