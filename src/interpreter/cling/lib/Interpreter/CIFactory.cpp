@@ -112,47 +112,7 @@ namespace {
                                        llvm::SmallVectorImpl<char>& Buf,
                                        AdditionalArgList& Args,
                                        bool Verbose) {
-    std::string CppInclQuery("LC_ALL=C ");
-    CppInclQuery.append(Compiler);
-
-    CppInclQuery.append(" -xc++ -E -v /dev/null 2>&1 |"
-                        " sed -n -e '/^.*include/,${' -e '/^ \\/.*++/p' -e '}'");
-
-    if (Verbose)
-      cling::log() << "Looking for C++ headers with:\n  " << CppInclQuery << "\n";
-
-    if (FILE *PF = ::popen(CppInclQuery.c_str(), "r")) {
-      Buf.resize(Buf.capacity_in_bytes());
-      while (fgets(&Buf[0], Buf.capacity_in_bytes(), PF) && Buf[0]) {
-        llvm::StringRef Path(&Buf[0]);
-        // Skip leading and trailing whitespace
-        Path = Path.trim();
-        if (!Path.empty()) {
-          if (!llvm::sys::fs::is_directory(Path)) {
-            if (Verbose)
-              cling::utils::LogNonExistantDirectory(Path);
-          }
-          else
-            Args.addArgument("-cxx-isystem", Path.str());
-        }
-      }
-      ::pclose(PF);
-    } else {
-      ::perror("popen failure");
-      // Don't be overly verbose, we already printed the command
-      if (!Verbose)
-        cling::errs() << " for '" << CppInclQuery << "'\n";
-    }
-
-    // Return the query in Buf on failure
-    if (Args.empty()) {
-      Buf.resize(0);
-      Buf.insert(Buf.begin(), CppInclQuery.begin(), CppInclQuery.end());
-    } else if (Verbose) {
-      cling::log() << "Found:\n";
-      for (const auto& Arg : Args)
-        cling::log() << "  " << Arg.second << "\n";
-    }
+    Args.addArgument("-cxx-isystem", std::string(::getenv("CONDA_PREFIX")) + std::string("/include/c++/v1"));
   }
 
   static bool AddCxxPaths(llvm::StringRef PathStr, AdditionalArgList& Args,
