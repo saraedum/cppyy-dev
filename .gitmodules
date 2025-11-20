@@ -1,0 +1,9 @@
+[submodule "upstream/cppyy-backend"]
+	path = upstream/cppyy-backend
+	url = git@github.com:wlav/cppyy-backend.git
+[submodule "upstream/CPyCppyy"]
+	path = upstream/CPyCppyy
+	url = git@github.com:wlav/CPyCppyy.git
+[submodule "upstream/cppyy"]
+	path = upstream/cppyy
+	url = git@github.com:wlav/cppyy.git
