@@ -1,0 +1,39 @@
+version: 6
+environments:
+  cppyy-backend-conda-forge-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cppyy-backend-vanilla-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cppyy-cling-conda-forge-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cppyy-cling-vanilla-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cppyy-conda-forge-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cppyy-vanilla-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cpycppyy-conda-forge-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  cpycppyy-vanilla-dev:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+  default:
+    channels:
+    - url: https://conda.anaconda.org/conda-forge/
+    packages: {}
+packages: []
