@@ -7,3 +7,15 @@
 [submodule "upstream/cppyy"]
 	path = upstream/cppyy
 	url = git@github.com:wlav/cppyy.git
+[submodule "feedstocks/cppyy-cling-feedstock"]
+	path = feedstocks/cppyy-cling-feedstock
+	url = git@github.com:conda-forge/cppyy-cling-feedstock.git
+[submodule "feedstocks/cppyy-backend-feedstock"]
+	path = feedstocks/cppyy-backend-feedstock
+	url = git@github.com:conda-forge/cppyy-backend-feedstock.git
+[submodule "feedstocks/cpycppyy-feedstock"]
+	path = feedstocks/cpycppyy-feedstock
+	url = git@github.com:conda-forge/cpycppyy-feedstock.git
+[submodule "feedstocks/cppyy-feedstock"]
+	path = feedstocks/cppyy-feedstock
+	url = git@github.com:conda-forge/cppyy-feedstock.git
