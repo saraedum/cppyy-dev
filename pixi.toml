@@ -4,30 +4,32 @@ name = "cppyy"
 platforms = ["linux-64", "osx-64", "osx-arm64"]
 version = "6.30.0"
 
-[dependencies]
-
 [environments]
-# Dependencies to build cppyy-cling with the maximum amount of opinionated conda-forge dependencies
-cppyy-cling-conda-forge-dev = ["cppyy-cling-conda-forge-dev", "conda-forge"]
-# Dependencies to build cppyy-cling without any opinionated conda-forge dependencies
-cppyy-cling-vanilla-dev = ["cppyy-cling-vanilla-dev"]
-# Dependencies to build cppyy-backend with cppyy-cling from conda-forge
-cppyy-backend-conda-forge-dev = ["cppyy-backend-conda-forge-dev"]
-# Dependencies to build cppyy-backend with a local cppyy-cling
-cppyy-backend-vanilla-dev = ["cppyy-backend-vanilla-dev", "cppyy-cling-vanilla-dev"]
-# Dependencies to build CPyCppyy with cppyy-cling and cppyy-backend from conda-forge
-cpycppyy-conda-forge-dev = ["cpycppyy-conda-forge-dev"]
-# Dependencies to build CPyCppyy with a local cppyy-cling and cppyy-backend
-cpycppyy-vanilla-dev = ["cpycppyy-vanilla-dev", "cppyy-backend-vanilla-dev"]
-# Dependencies to build cppyy with only conda-forge dependencies
-cppyy-conda-forge-dev = ["cppyy-conda-forge-dev"]
-# Dependencies to build cppyy with a local cppyy-cling, CPyCppyy, and cppyy-backend
-cppyy-vanilla-dev = ["cppyy-vanilla-dev", "cpycppyy-vanilla-dev"]
+feedstock-dev = ["feedstock-dev"]
+# TODO: Make these environments available, see README.md
+# cppyy-cling-dev-builtin-llvm = [?]
+# cppyy-cling-dev-conda-forge-llvm = [?]
+# cppyy-cling-dev-local-builtin-llvm = [?]
+# cppyy-cling-dev-local-conda-forge-llvm = [?]
+# cppyy-backend-dev-local-builtin-llvm = [?]
+# cppyy-backend-dev-conda-forge-llvm = [?]
+# cppyy-backend-dev-conda-forge = [?]
+# cppyy-backend-dev-pypi = [?]
+# cpycppyy-dev-local-builtin-llvm = [?]
+# cpycppyy-dev-conda-forge-llvm = [?]
+# cpycppyy-dev-conda-forge = [?]
+# cpycppyy-dev-pypi = [?]
+# cppyy-dev-local-builtin-llvm = [?]
+# cppyy-dev-conda-forge-llvm = [?]
+# cppyy-dev-conda-forge = [?]
+# cppyy-dev-pypi = [?]
 
-[feature.conda-forge.activation]
-scripts = ["conda-build-activation.sh"]
+[feature.feedstock-dev.dependencies]
+conda-build = "*"
+conda-smithy = "*"
+conda-recipe-manager = "*"
 
-[feature.cppyy-cling-conda-forge-dev.dependencies]
+[feature.cppyy-cling-dev.dependencies]
 python = "*"
 cxx-compiler = "*"
 sed = "*"
@@ -38,27 +40,18 @@ libboost-headers = "*"
 pip = "*"
 setuptools = "*"
 zlib = "*"
+
+[feature.conda-forge-llvm.dependencies]
 clangdev = { version="13.*", build="root_63004*" }
 
-[feature.cppyy-cling-conda-forge-dev.tasks]
-install = { cmd = "bash ../../feedstocks/cppyy-cling-feedstock/recipe/build.sh", cwd = "patched/cppyy-cling" }
+[feature.cppyy-backend-dev.dependencies]
+python = "*"
+cxx-compiler = "*"
+pip = "*"
+setuptools = "*"
 
-[feature.cppyy-cling-conda-forge-dev.activation.env]
-RECIPE_DIR = "$PWD/feedstocks/cppyy-cling-feedstock/recipe"
-
-[feature.cppyy-cling-conda-forge-dev.target.osx-64.dependencies]
-libcxx-devel = "*"
-
-[feature.cppyy-cling-conda-forge-dev.target.osx-arm64.dependencies]
-libcxx-devel = "*"
-
-[feature.cppyy-cling-vanilla-dev.dependencies]
-[feature.cppyy-backend-conda-forge-dev.dependencies]
-[feature.cppyy-backend-vanilla-dev.dependencies]
-[feature.cpycppyy-conda-forge-dev.dependencies]
-[feature.cpycppyy-vanilla-dev.dependencies]
-[feature.cppyy-conda-forge-dev.dependencies]
-[feature.cppyy-vanilla-dev.dependencies]
+[feature.conda-forge-cppyy-cling.dependencies]
+cppyy-cling = "==6.30.0"
 
 [activation.env]
 MAKEFLAGS = "-j$(nproc || sysctl -n hw.ncpu)"

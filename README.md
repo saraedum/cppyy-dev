@@ -9,11 +9,77 @@ foreseeable future so at least I want to make my life a bit easier by having
 some reproducible setups here that I can use to check how I managed to build
 older versions.
 
+This repository aims to make it easy to build and develop the four components
+that make up cppyy (`cppyy-cling`, `cppyy-backend`, `CpyCppyy`, `cppyy`) in the
+relevant variants.
+
+# What is here?
+
+* `upstream` are the upstream sources of the components of cppyy, namely,
+  `cppyy-cling` and `cppyy-backend` (both in `upstream/cppyy-backend`),
+  `Cpycppyy`, and `cppyy`.
+* `feedstocks` are the upstream feedstocks from conda-forge.
+* `patched` are staging areas used for building the patch chains to apply to
+  the feedstocks. There is one branch for each upstream release; created by
+  directly importing the release tarball and reflecting the latest sequence of
+  conda-forge patches for that release. We aim to create a tag for each
+  released sequence of patches.
+
 # How to use this Repository
+
+This repository is organized in branches to reflect the releases of cppyy.
+
+We aim to support the common development and maintenance tasks through pixi.
+
+## pixi Environments
+
+We provide the following pixi environments:
+
+* `feedstock-dev`, to work on the `feedstocks`/, see
+  [there](feedstocks/README.md) for details
+* `cppyy-cling-dev-builtin-llvm`, to work on `patched/cppyy-cling/` or
+  `upstream/cppyy-backend/cling` configured to build its own cppyy-patched
+  LLVM.
+* `cppyy-cling-dev-conda-forge-llvm` same but using an LLVM build from conda-forge.
+* `cppyy-backend-dev-local-builtin-llvm` to work on `patched/cppyy-backend` or
+  `upstream/cppyy-backend` with `cppyy-cling` provided by `patched/cppyy-cling`
+  configured to use the builtin cppyy-patched LLVM.
+* `cppyy-backend-dev-local-conda-forge-llvm` same but using
+  `patechd/cppyy-cling` built to use conda-forge's LLVM.
+* `cppyy-backend-dev-conda-forge` to work on `patched/cppyy-backend` or
+  `upstream/cppyy-backend/clingwrapper` with `cppyy-cling` provided by conda-forge.
+* `cppyy-backend-dev-pypi` same but with `cppyy-cling` provided by PyPI.
+* `cpycppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
+* `cppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
+
+## pixi Tasks
+
+The environments provide a variety of tasks. They should be mostly
+self-explanatory, see `pixi.toml` for details.
+
+Here are some of the most important ones
+
+### feedstock Tasks
 
 TODO
 
-# cppyy Repository Layout and Build Process
+### cppyy-cling-dev-* Tasks
+
+TODO
+
+### cppyy-backend-dev-* Tasks
+
+TODO
+
+### cpycppyy-dev-* Tasks
+
+TODO
+
+### cppyy-dev-* Tasks
+
+TODO
+
+# Upstream Repository Layout and Build Process
 
 ## cppyy-cling
 
