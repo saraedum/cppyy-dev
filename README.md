@@ -51,6 +51,8 @@ We provide the following pixi environments:
 * `cppyy-backend-dev-pypi` same but with `cppyy-cling` provided by PyPI.
 * `cpycppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
 * `cppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
+* `cppyy-pypi`, an installation of vanilla cppyy as published PyPI
+* `cppyy-conda-forge`, an installation of cppyy as published on conda-forge
 
 ## pixi Tasks
 
@@ -77,7 +79,11 @@ TODO
 
 ### cppyy-dev-* Tasks
 
-TODO
+* `pixi run install-cppyy-from-pypi` -- to install the upstream `cppyy` from PyPI assuming its dependencies are present
+* `pixi run install-cppyy-from-patched` -- to install `cppyy` from `patched/cppyy` assuming its dependencies are present
+* `pixi run install-cppyy-from-upstream` -- to install `cppyy` from `upstream/cppyy` assuming its dependencies are present
+* `pixi run install` -- to install `cppyy` and its dependencies from `patched/`
+* `pixi run test` -- run pytest tests defined in `upstream/cppyy/test` assuming cppyy is installed already
 
 # Upstream Repository Layout and Build Process
 
