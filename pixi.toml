@@ -16,8 +16,8 @@ feedstock-dev = ["feedstock-dev"]
 # TODO: Make these environments available, see README.md
 # cppyy-backend-dev-local-builtin-llvm = [?]
 # cppyy-backend-dev-local-conda-forge-llvm = [?]
-# cppyy-backend-dev-conda-forge = [?]
-# cppyy-backend-dev-pypi = [?]
+cppyy-backend-dev-conda-forge = ["cppyy-backend-dev", "cppyy-backend-dev-conda-forge"]
+cppyy-backend-dev-pypi = ["cppyy-backend-dev", "cppyy-backend-dev-pypi"]
 
 # TODO: Make these environments available, see README.md
 # cpycppyy-dev-local-builtin-llvm = [?]
@@ -25,6 +25,7 @@ feedstock-dev = ["feedstock-dev"]
 cpycppyy-dev-conda-forge = ["cpycppyy-dev", "cpycppyy-dev-conda-forge"]
 cpycppyy-dev-pypi = ["cpycppyy-dev", "cpycppyy-dev-pypi"]
 
+# TODO: Make these environments available, see README.md
 # cppyy-dev-local-builtin-llvm = [?]
 # cppyy-dev-local-conda-forge-llvm = [?]
 cppyy-dev-conda-forge = ["cppyy-dev", "cppyy-dev-conda-forge"]
@@ -61,13 +62,15 @@ zlib = "*"
 [feature.conda-forge-llvm.dependencies]
 clangdev = { version="13.*", build="root_63004*" }
 
-[feature.cppyy-backend-dev.dependencies]
-python = "*"
-cxx-compiler = "*"
-pip = "*"
-setuptools = "*"
-
 [feature.conda-forge-cppyy-cling.dependencies]
+cppyy-cling = "==6.30.0"
+
+[feature.cppyy-backend-dev.dependencies]
+
+[feature.cppyy-backend-dev-conda-forge.dependencies]
+cppyy-cling = "==6.30.0"
+
+[feature.cppyy-backend-dev-pypi.pypi-dependencies]
 cppyy-cling = "==6.30.0"
 
 [feature.cpycppyy-dev.dependencies]
@@ -107,6 +110,23 @@ cppyy = "==3.1.2"
 #########
 # TASKS #
 #########
+[feature.cppyy-backend-dev.tasks.install-cppyy-backend-from-pypi]
+cmd = "pip install --no-deps --no-build-isolation -v --force-reinstall cppyy-backend==1.15.2"
+
+[feature.cppyy-backend-dev.tasks.install-cppyy-backend-from-patched]
+cmd = "pip install --no-deps --no-build-isolation -vv ."
+cwd = "patched/cppyy-backend"
+
+[feature.cppyy-backend-dev.tasks.install-cppyy-backend-from-upstream]
+cmd = "pip install --no-deps --no-build-isolation -vv ."
+cwd = "upstream/cppyy-backend/clingwrapper"
+
+[feature.cppyy-backend-dev-conda-forge.tasks.install]
+depends-on = ["install-cppyy-backend-from-patched"]
+
+[feature.cppyy-backend-dev-pypi.tasks.install]
+depends-on = ["install-cppyy-backend-from-patched"]
+
 [feature.cpycppyy-dev.tasks.install-cpycppyy-from-pypi]
 cmd = "pip install --no-deps --no-build-isolation -v --force-reinstall cpycppyy==1.12.16"
 
