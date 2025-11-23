@@ -6,23 +6,30 @@ version = "6.30.0"
 
 [environments]
 feedstock-dev = ["feedstock-dev"]
+
 # TODO: Make these environments available, see README.md
 # cppyy-cling-dev-builtin-llvm = [?]
 # cppyy-cling-dev-conda-forge-llvm = [?]
 # cppyy-cling-dev-local-builtin-llvm = [?]
 # cppyy-cling-dev-local-conda-forge-llvm = [?]
+
+# TODO: Make these environments available, see README.md
 # cppyy-backend-dev-local-builtin-llvm = [?]
 # cppyy-backend-dev-local-conda-forge-llvm = [?]
 # cppyy-backend-dev-conda-forge = [?]
 # cppyy-backend-dev-pypi = [?]
+
+# TODO: Make these environments available, see README.md
 # cpycppyy-dev-local-builtin-llvm = [?]
 # cpycppyy-dev-local-conda-forge-llvm = [?]
-# cpycppyy-dev-conda-forge = [?]
-# cpycppyy-dev-pypi = [?]
+cpycppyy-dev-conda-forge = ["cpycppyy-dev", "cpycppyy-dev-conda-forge"]
+cpycppyy-dev-pypi = ["cpycppyy-dev", "cpycppyy-dev-pypi"]
+
 # cppyy-dev-local-builtin-llvm = [?]
 # cppyy-dev-local-conda-forge-llvm = [?]
 cppyy-dev-conda-forge = ["cppyy-dev", "cppyy-dev-conda-forge"]
 cppyy-dev-pypi = ["cppyy-dev", "cppyy-dev-pypi"]
+
 cppyy-pypi = ["cppyy-dev", "cppyy-pypi"]
 cppyy-conda-forge = ["cppyy-dev", "cppyy-conda-forge"]
 
@@ -32,6 +39,7 @@ cppyy-conda-forge = ["cppyy-dev", "cppyy-conda-forge"]
 [dependencies]
 pip = "*"
 setuptools = "*"
+cxx-compiler = "*"
 
 [feature.feedstock-dev.dependencies]
 conda-build = "*"
@@ -62,6 +70,16 @@ setuptools = "*"
 [feature.conda-forge-cppyy-cling.dependencies]
 cppyy-cling = "==6.30.0"
 
+[feature.cpycppyy-dev.dependencies]
+
+[feature.cpycppyy-dev-conda-forge.dependencies]
+cppyy-cling = "==6.30.0"
+cppyy-backend = "==1.15.2"
+
+[feature.cpycppyy-dev-pypi.pypi-dependencies]
+cppyy-cling = "==6.30.0"
+cppyy-backend = "==1.15.2"
+
 [feature.cppyy-dev.dependencies]
 pytest = "*"
 make = "*"
@@ -71,16 +89,10 @@ cppyy-cling = "==6.30.0"
 cppyy-backend = "==1.15.2"
 cpycppyy = "==1.12.16"
 
-[feature.cppyy-dev-pypi.dependencies]
-cxx-compiler = "*"
-
 [feature.cppyy-dev-pypi.pypi-dependencies]
 cppyy-cling = "==6.30.0"
 cppyy-backend = "==1.15.2"
 CpyCppyy = "==1.12.16"
-
-[feature.cppyy-pypi.dependencies]
-cxx-compiler = "*"
 
 [feature.cppyy-pypi.target.linux-64.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
@@ -95,6 +107,23 @@ cppyy = "==3.1.2"
 #########
 # TASKS #
 #########
+[feature.cpycppyy-dev.tasks.install-cpycppyy-from-pypi]
+cmd = "pip install --no-deps --no-build-isolation -v --force-reinstall cpycppyy==1.12.16"
+
+[feature.cpycppyy-dev.tasks.install-cpycppyy-from-patched]
+cmd = "pip install --no-deps --no-build-isolation -vv ."
+cwd = "patched/cpycppyy"
+
+[feature.cpycppyy-dev.tasks.install-cpycppyy-from-upstream]
+cmd = "pip install --no-deps --no-build-isolation -vv ."
+cwd = "upstream/cpycppyy"
+
+[feature.cpycppyy-dev-conda-forge.tasks.install]
+depends-on = ["install-cpycppyy-from-patched"]
+
+[feature.cpycppyy-dev-pypi.tasks.install]
+depends-on = ["install-cpycppyy-from-patched"]
+
 [feature.cppyy-dev.tasks.test]
 # TODO: Tests do not pass:
 # In cppyy-pypi, we get stltypes.cxx:18:59: error: 'operator!=' is not a template function
@@ -115,6 +144,9 @@ cmd = "pip install --no-deps --no-build-isolation -vv ."
 cwd = "upstream/cppyy"
 
 [feature.cppyy-dev-conda-forge.tasks.install]
+depends-on = ["install-cppyy-from-patched"]
+
+[feature.cppyy-dev-pypi.tasks.install]
 depends-on = ["install-cppyy-from-patched"]
 
 ##############
