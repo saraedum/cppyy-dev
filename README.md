@@ -71,11 +71,17 @@ TODO
 
 ### cppyy-backend-dev-* Tasks
 
-TODO
+* `pixi run install-cppyy-backend-from-pypi` -- to install the upstream `cppyy-backend` from PyPI assuming its dependencies are present
+* `pixi run install-cppyy-backend-from-patched` -- to install `cppyy-backend` from `patched/cppyy-backend` assuming its dependencies are present
+* `pixi run install-cppyy-backend-from-upstream` -- to install `cppyy-backend` from `upstream/cling/clingwrapper` assuming its dependencies are present
+* `pixi run install` -- to install `cppyy-backend` and its dependencies from `patched/`
 
 ### cpycppyy-dev-* Tasks
 
-TODO
+* `pixi run install-cpycppyy-from-pypi` -- to install the upstream `cpycppyy` from PyPI assuming its dependencies are present
+* `pixi run install-cpycppyy-from-patched` -- to install `cpycppyy` from `patched/cpycppyy` assuming its dependencies are present
+* `pixi run install-cpycppyy-from-upstream` -- to install `cpycppyy` from `upstream/cpycppyy` assuming its dependencies are present
+* `pixi run install` -- to install `cpycppyy` and its dependencies from `patched/`
 
 ### cppyy-dev-* Tasks
 
