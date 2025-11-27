@@ -7,29 +7,26 @@ version = "6.30.0"
 [environments]
 feedstock-dev = ["feedstock-dev"]
 
-# TODO: Make these environments available, see README.md
-# cppyy-cling-dev-builtin-llvm = [?]
-# cppyy-cling-dev-conda-forge-llvm = [?]
-# cppyy-cling-dev-local-builtin-llvm = [?]
-# cppyy-cling-dev-local-conda-forge-llvm = [?]
+cppyy-cling-dev-builtin-llvm = ["cppyy-cling-dev", "cppyy-cling-dev-builtin-llvm", "builtin-llvm"]
+cppyy-cling-dev-conda-forge-llvm = ["cppyy-cling-dev", "cppyy-cling-dev-conda-forge-llvm", "conda-forge-llvm"]
 
 # TODO: Make these environments available, see README.md
 # cppyy-backend-dev-local-builtin-llvm = [?]
 # cppyy-backend-dev-local-conda-forge-llvm = [?]
-cppyy-backend-dev-conda-forge = ["cppyy-backend-dev", "cppyy-backend-dev-conda-forge"]
-cppyy-backend-dev-pypi = ["cppyy-backend-dev", "cppyy-backend-dev-pypi"]
+cppyy-backend-dev-conda-forge = ["cppyy-backend-dev", "cppyy-backend-dev-conda-forge", "cppyy-cling-conda-forge"]
+cppyy-backend-dev-pypi = ["cppyy-backend-dev", "cppyy-backend-dev-pypi", "cppyy-cling-pypi"]
 
 # TODO: Make these environments available, see README.md
 # cpycppyy-dev-local-builtin-llvm = [?]
 # cpycppyy-dev-local-conda-forge-llvm = [?]
-cpycppyy-dev-conda-forge = ["cpycppyy-dev", "cpycppyy-dev-conda-forge"]
-cpycppyy-dev-pypi = ["cpycppyy-dev", "cpycppyy-dev-pypi"]
+cpycppyy-dev-conda-forge = ["cpycppyy-dev", "cpycppyy-dev-conda-forge", "cppyy-cling-conda-forge", "cppyy-backend-conda-forge"]
+cpycppyy-dev-pypi = ["cpycppyy-dev", "cpycppyy-dev-pypi", "cppyy-cling-pypi", "cppyy-backend-pypi"]
 
 # TODO: Make these environments available, see README.md
 # cppyy-dev-local-builtin-llvm = [?]
 # cppyy-dev-local-conda-forge-llvm = [?]
-cppyy-dev-conda-forge = ["cppyy-dev", "cppyy-dev-conda-forge"]
-cppyy-dev-pypi = ["cppyy-dev", "cppyy-dev-pypi"]
+cppyy-dev-conda-forge = ["cppyy-dev", "cppyy-dev-conda-forge", "cppyy-cling-conda-forge", "cppyy-backend-conda-forge", "cpycppyy-conda-forge"]
+cppyy-dev-pypi = ["cppyy-dev", "cppyy-dev-pypi", "cppyy-cling-pypi", "cppyy-backend-pypi", "cpycppyy-pypi"]
 
 cppyy-pypi = ["cppyy-dev", "cppyy-pypi"]
 cppyy-conda-forge = ["cppyy-dev", "cppyy-conda-forge"]
@@ -48,68 +45,113 @@ conda-smithy = "*"
 conda-recipe-manager = "*"
 
 [feature.cppyy-cling-dev.dependencies]
-python = "*"
-cxx-compiler = "*"
-sed = "*"
 cmake = "*"
 findutils = "*"
-make = "*"
 libboost-headers = "*"
+libxml2 = "*"
+make = "*"
 pip = "*"
+python = "*"
+sed = "*"
 setuptools = "*"
 zlib = "*"
+
+[feature.builtin-llvm.dependencies]
 
 [feature.conda-forge-llvm.dependencies]
 clangdev = { version="13.*", build="root_63004*" }
 
-[feature.conda-forge-cppyy-cling.dependencies]
+[feature.cppyy-cling-conda-forge.dependencies]
 cppyy-cling = "==6.30.0"
 
-[feature.cppyy-backend-dev.dependencies]
-
-[feature.cppyy-backend-dev-conda-forge.dependencies]
-cppyy-cling = "==6.30.0"
-
-[feature.cppyy-backend-dev-pypi.pypi-dependencies]
-cppyy-cling = "==6.30.0"
-
-[feature.cpycppyy-dev.dependencies]
-
-[feature.cpycppyy-dev-conda-forge.dependencies]
-cppyy-cling = "==6.30.0"
+[feature.cppyy-backend-conda-forge.dependencies]
 cppyy-backend = "==1.15.2"
 
-[feature.cpycppyy-dev-pypi.pypi-dependencies]
+[feature.cpycppyy-conda-forge.dependencies]
+cpycppyy = "==1.12.16"
+
+[feature.cppyy-conda-forge.dependencies]
+cppyy = "==3.1.2"
+
+[feature.cppyy-cling-pypi.pypi-dependencies]
 cppyy-cling = "==6.30.0"
+
+[feature.cppyy-backend-pypi.pypi-dependencies]
 cppyy-backend = "==1.15.2"
+
+[feature.cpycppyy-pypi.pypi-dependencies]
+cpycppyy = "==1.12.16"
+
+[feature.cppyy-pypi.pypi-dependencies]
+cppyy = "==3.1.2"
 
 [feature.cppyy-dev.dependencies]
 pytest = "*"
 make = "*"
 
-[feature.cppyy-dev-conda-forge.dependencies]
-cppyy-cling = "==6.30.0"
-cppyy-backend = "==1.15.2"
-cpycppyy = "==1.12.16"
-
-[feature.cppyy-dev-pypi.pypi-dependencies]
-cppyy-cling = "==6.30.0"
-cppyy-backend = "==1.15.2"
-CpyCppyy = "==1.12.16"
-
 [feature.cppyy-pypi.target.linux-64.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
 gcc = "11.*"
 
-[feature.cppyy-pypi.pypi-dependencies]
-cppyy = "==3.1.2"
-
-[feature.cppyy-conda-forge.dependencies]
-cppyy = "==3.1.2"
-
 #########
 # TASKS #
 #########
+[feature.cppyy-cling-dev.tasks.create-src-directory]
+cmd = "create_src_directory.py"
+cwd = "upstream/cppyy-backend/cling"
+
+[feature.cppyy-cling-dev.tasks.configure-cppyy-cling-patched-builtin-llvm]
+# runtime_cxxmodules (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build
+cmd = "mkdir -p build && cd build && cmake ../src -Dbuiltin_llvm=ON -Dbuiltin_clang=ON -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -Dbuiltin_cling=ON -Druntime_cxxmodules=OFF"
+cwd = "patched/cppyy-cling"
+
+[feature.cppyy-cling-dev.tasks.configure-cppyy-cling-patched-conda-forge-llvm]
+# runtime_cxxmodules (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build
+cmd = "mkdir -p build && cd build && cmake ../src -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -Dbuiltin_cling=ON -Druntime_cxxmodules=OFF"
+cwd = "patched/cppyy-cling"
+
+[feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-builtin-llvm]
+cmd = "TODO"
+cwd = "upstream/cppyy-backend/cling"
+
+[feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-conda-forge-llvm]
+cmd = "TODO"
+cwd = "upstream/cppyy-backend/cling"
+
+[feature.cppyy-cling-dev.tasks.build-cppyy-cling-patched]
+cmd = "cd build && make"
+cwd = "patched/cppyy-cling"
+
+[feature.cppyy-cling-dev.tasks.build-cppyy-cling-upstream]
+cmd = "TODO"
+cwd = "upstream/cppyy-backend/cling"
+
+[feature.cppyy-cling-dev.tasks.install-cppyy-cling-patched]
+cmd = "python setup.py install --skip-build"
+cwd = "patched/cppyy-cling"
+
+[feature.cppyy-cling-dev.tasks.install-cppyy-cling-upstream]
+cmd = "python setup.py install --skip-build"
+cwd = "upstream/cppyy-backend/cling"
+
+[feature.cppyy-cling-dev-builtin-llvm.tasks.install-cppyy-cling-from-patched]
+depends-on = ["configure-cppyy-cling-patched-builtin-llvm", "build-cppyy-cling-patched", "install-cppyy-cling-patched"]
+
+[feature.cppyy-cling-dev-conda-forge-llvm.tasks.install-cppyy-cling-from-patched]
+depends-on = ["configure-cppyy-cling-patched-conda-forge-llvm", "build-cppyy-cling-patched", "install-cppyy-cling-patched"]
+
+[feature.cppyy-cling-dev-builtin-llvm.tasks.install-cppyy-cling-from-upstream]
+depends-on = ["create-src-directory", "configure-cppyy-cling-upstream-builtin-llvm", "build-cppyy-cling-upstream", "install-cppyy-cling-upstream"]
+
+[feature.cppyy-cling-dev-conda-forge-llvm.tasks.install-cppyy-cling-from-upstream]
+depends-on = ["create-src-directory", "configure-cppyy-cling-upstream-conda-forge-llvm", "build-cppyy-cling-upstream", "install-cppyy-cling-upstream"]
+
+[feature.cppyy-cling-dev-builtin-llvm.tasks.install]
+depends-on = ["install-cppyy-cling-from-patched"]
+
+[feature.cppyy-cling-dev-conda-forge-llvm.tasks.install]
+depends-on = ["install-cppyy-cling-from-patched"]
+
 [feature.cppyy-backend-dev.tasks.install-cppyy-backend-from-pypi]
 cmd = "pip install --no-deps --no-build-isolation -v --force-reinstall cppyy-backend==1.15.2"
 
