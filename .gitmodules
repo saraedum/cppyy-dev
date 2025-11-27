@@ -19,3 +19,15 @@
 [submodule "feedstocks/cppyy-feedstock"]
 	path = feedstocks/cppyy-feedstock
 	url = git@github.com:conda-forge/cppyy-feedstock.git
+[submodule "patched/cppyy-cling"]
+	path = patched/cppyy-cling
+	url = git@github.com:saraedum/cppyy-dev.git
+[submodule "patched/cppyy-backend"]
+	path = patched/cppyy-backend
+	url = git@github.com:saraedum/cppyy-dev.git
+[submodule "patched/cpycppyy"]
+	path = patched/cpycppyy
+	url = git@github.com:saraedum/cppyy-dev.git
+[submodule "patched/cppyy"]
+	path = patched/cppyy
+	url = git@github.com:saraedum/cppyy-dev.git
