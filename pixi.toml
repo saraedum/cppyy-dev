@@ -38,6 +38,7 @@ cppyy-conda-forge = ["cppyy-dev", "cppyy-conda-forge"]
 pip = "*"
 setuptools = "*"
 cxx-compiler = "*"
+ccache = "*"
 
 [feature.feedstock-dev.dependencies]
 conda-build = "*"
@@ -216,3 +217,5 @@ depends-on = ["install-cppyy-from-patched"]
 ##############
 [activation.env]
 MAKEFLAGS = "-j$(nproc || sysctl -n hw.ncpu)"
+CMAKE_C_COMPILER_LAUNCHER = "ccache"
+CMAKE_CXX_COMPILER_LAUNCHER = "ccache"
