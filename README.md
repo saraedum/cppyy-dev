@@ -31,6 +31,10 @@ This repository is organized in branches to reflect the releases of cppyy.
 
 We aim to support the common development and maintenance tasks through pixi.
 
+Note that the setup here is not fool proof. Built artifacts can leak between
+runs, branches and environments. To be on the safe side, it's best to `git
+clean -dx` things and also `rm -rf .pixi`.
+
 ## pixi Environments
 
 We provide the following pixi environments:
@@ -67,7 +71,8 @@ TODO
 
 ### cppyy-cling-dev-* Tasks
 
-TODO
+* `pixi run install` -- to install `cppyy-cling` from `patched/cppyy-cling`
+* `pixi run install-cppyy-cling-from-upstream` -- to install `cppyy-cling` from `upstream/cppyy-backend-cling`
 
 ### cppyy-backend-dev-* Tasks
 
