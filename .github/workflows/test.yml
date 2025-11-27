@@ -22,4 +22,4 @@ jobs:
         environments: ${{ matrix.environment }}
         activate-environment: true
     - name: Run install task
-      run: pixi run install
+      run: VERBOSE=1 pixi run install
