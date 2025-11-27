@@ -103,12 +103,12 @@ cwd = "upstream/cppyy-backend/cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-patched-builtin-llvm]
 # runtime_cxxmodules (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build
-cmd = "mkdir -p build && cd build && cmake ../src -Dbuiltin_llvm=ON -Dbuiltin_clang=ON -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -Dbuiltin_cling=ON -Druntime_cxxmodules=OFF"
+cmd = "mkdir -p build && cd build && cmake ../src -Dbuiltin_llvm=ON -Dbuiltin_clang=ON -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -Dbuiltin_cling=ON -Druntime_cxxmodules=OFF -DCMAKE_CXX_STANDARD=17"
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-patched-conda-forge-llvm]
 # runtime_cxxmodules (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build
-cmd = "mkdir -p build && cd build && cmake ../src -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -Dbuiltin_cling=ON -Druntime_cxxmodules=OFF"
+cmd = "mkdir -p build && cd build && cmake ../src -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -Dbuiltin_cling=ON -Druntime_cxxmodules=OFF -DCMAKE_CXX_STANDARD=17"
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-builtin-llvm]
