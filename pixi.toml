@@ -39,6 +39,7 @@ pip = "*"
 setuptools = "*"
 cxx-compiler = "*"
 ccache = "*"
+mamba = "*"
 
 [feature.feedstock-dev.dependencies]
 conda-build = "*"
@@ -87,10 +88,14 @@ cpycppyy = "==1.12.16"
 cppyy = "==3.1.2"
 
 [feature.cppyy-dev.dependencies]
+# We install a version of Python that is compatible with the current builds of SageMath for downstream/ testing
+python = "<3.13"
 make = "*"
 pytest = "*"
-pytest-xdist = ">=3.8.0,<4"
-pytest-forked = ">=1.6.0,<2"
+pytest-xdist = "*"
+
+[feature.cppyy-dev.pypi-dependencies]
+pytest-isolate = "*"
 
 [feature.cppyy-pypi.target.linux-64.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
@@ -191,7 +196,7 @@ depends-on = ["install-cpycppyy-from-patched"]
 # TODO: Tests do not pass:
 # In cppyy-pypi, 36 failed, quite a few segfaults.
 # In cppyy-conda-forge, 31 failed, quite a few segfaults.
-cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest --forked -n$(nproc || sysctl -n hw.ncpu)"
+cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest --isolate -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "upstream/cppyy/test"
 
 [feature.cppyy-dev.tasks.install-cppyy-from-pypi]
@@ -204,6 +209,34 @@ cwd = "patched/cppyy"
 [feature.cppyy-dev.tasks.install-cppyy-from-upstream]
 cmd = "pip install --no-deps --no-build-isolation -vv ."
 cwd = "upstream/cppyy"
+
+[feature.cppyy-dev.tasks.install-flatsurf]
+depends-on = ["install-flatsurf-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-pyeantic", "install-pyintervalxt", "install-pyflatsurf", "install-sage-flatsurf"]
+
+[feature.cppyy-dev.tasks.install-flatsurf-dependencies]
+cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml"
+
+[feature.cppyy-dev.tasks.test-cppyythonizations]
+cmd = "pytest --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
+cwd = "downstream/cppyythonizations"
+
+[feature.cppyy-dev.tasks.install-cppyythonizations]
+cmd = "pip install ."
+cwd = "downstream/cppyythonizations"
+
+[feature.cppyy-dev.tasks.build-gmpxxyy]
+cmd = "./bootstrap && ./configure --prefix=$CONDA_PREFIX && make"
+cwd = "downstream/gmpxxyy"
+
+[feature.cppyy-dev.tasks.install-gmpxxyy]
+depends-on = ["build-gmpxxyy"]
+cmd = "make install"
+cwd = "downstream/gmpxxyy"
+
+[feature.cppyy-dev.tasks.test-gmpxxyy]
+depends-on = ["build-gmpxxyy"]
+cmd = "make check"
+cwd = "downstream/gmpxxyy"
 
 [feature.cppyy-dev-conda-forge.tasks.install]
 depends-on = ["install-cppyy-from-patched"]
