@@ -170,7 +170,7 @@ namespace utils {
     return result;
   }
 
-  const char* const Synthesize::UniquePrefix = "__cling_Un1Qu3";
+  const char* const Synthesize::UniquePrefix __attribute__((used)) = "__cling_Un1Qu3";
 
   IntegerLiteral* Synthesize::IntegerLiteralExpr(ASTContext& C, uintptr_t Ptr) {
     const llvm::APInt Addr(8 * sizeof(void*), Ptr);
