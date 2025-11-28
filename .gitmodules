@@ -1,33 +1,33 @@
 [submodule "upstream/cppyy-backend"]
 	path = upstream/cppyy-backend
-	url = git@github.com:wlav/cppyy-backend.git
+	url = https://github.com/wlav/cppyy-backend.git
 [submodule "upstream/CPyCppyy"]
 	path = upstream/CPyCppyy
-	url = git@github.com:wlav/CPyCppyy.git
+	url = https://github.com/wlav/CPyCppyy.git
 [submodule "upstream/cppyy"]
 	path = upstream/cppyy
-	url = git@github.com:wlav/cppyy.git
+	url = https://github.com/wlav/cppyy.git
 [submodule "feedstocks/cppyy-cling-feedstock"]
 	path = feedstocks/cppyy-cling-feedstock
-	url = git@github.com:conda-forge/cppyy-cling-feedstock.git
+	url = https://github.com/conda-forge/cppyy-cling-feedstock.git
 [submodule "feedstocks/cppyy-backend-feedstock"]
 	path = feedstocks/cppyy-backend-feedstock
-	url = git@github.com:conda-forge/cppyy-backend-feedstock.git
+	url = https://github.com/conda-forge/cppyy-backend-feedstock.git
 [submodule "feedstocks/cpycppyy-feedstock"]
 	path = feedstocks/cpycppyy-feedstock
-	url = git@github.com:conda-forge/cpycppyy-feedstock.git
+	url = https://github.com/conda-forge/cpycppyy-feedstock.git
 [submodule "feedstocks/cppyy-feedstock"]
 	path = feedstocks/cppyy-feedstock
-	url = git@github.com:conda-forge/cppyy-feedstock.git
+	url = https://github.com/conda-forge/cppyy-feedstock.git
 [submodule "patched/cppyy-cling"]
 	path = patched/cppyy-cling
-	url = git@github.com:saraedum/cppyy-dev.git
+	url = https://github.com/saraedum/cppyy-dev.git
 [submodule "patched/cppyy-backend"]
 	path = patched/cppyy-backend
-	url = git@github.com:saraedum/cppyy-dev.git
+	url = https://github.com/saraedum/cppyy-dev.git
 [submodule "patched/cpycppyy"]
 	path = patched/cpycppyy
-	url = git@github.com:saraedum/cppyy-dev.git
+	url = https://github.com/saraedum/cppyy-dev.git
 [submodule "patched/cppyy"]
 	path = patched/cppyy
-	url = git@github.com:saraedum/cppyy-dev.git
+	url = https://github.com/saraedum/cppyy-dev.git
