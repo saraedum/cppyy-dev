@@ -380,3 +380,7 @@ endif()
 if ((NOT builtin_llvm) AND (NOT builtin_clang))
   target_compile_definitions(clingInterpreter PUBLIC "LLVM_PATH=\"${LLVM_BINARY_DIR}\"")
 endif()
+
+# InterpreterCallbacks is polymorphic with TRootClingCallbacks inheriting from it so it must be compiled with RTTI so
+# we override any previous -fno-rtti flags that might have been set here.
+set_source_files_properties(InterpreterCallbacks.cpp PROPERTIES COMPILE_FLAGS "-frtti")
