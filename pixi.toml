@@ -215,7 +215,7 @@ depends-on = ["install-flatsurf-dependencies", "install-gmpxxyy", "install-cppyy
 
 [feature.cppyy-dev.tasks.install-flatsurf-suite-dependencies]
 # TODO: Teach intervalxt to handle fmt=12.
-cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml benchmark fmt=11.'*' gmpxxll && pip install realalg"
+cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml benchmark hatchling surface-dynamics fmt=11.'*' gmpxxll more-itertools matplotlib-base && pip install realalg bidict"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
 cmd = "pytest --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
@@ -294,6 +294,15 @@ cwd = "downstream/flatsurf"
 depends-on = ["build-flatsurf"]
 cmd = "make check"
 cwd = "downstream/flatsurf"
+
+[feature.cppyy-dev.tasks.install-sage-flatsurf]
+cmd = "pip install --no-deps --no-build-isolation -e ."
+cwd = "downstream/sage-flatsurf"
+
+[feature.cppyy-dev.tasks.test-sage-flatsurf]
+depends-on = ["install-sage-flatsurf"]
+cmd = "sage -tp flatsurf"
+cwd = "downstream/sage-flatsurf"
 
 [feature.cppyy-dev-conda-forge.tasks.install]
 depends-on = ["install-cppyy-from-patched"]
