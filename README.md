@@ -24,6 +24,8 @@ relevant variants.
   directly importing the release tarball and reflecting the latest sequence of
   conda-forge patches for that release. We aim to create a tag for each
   released sequence of patches.
+* `downstream` are some downstream projects that we might want to test against
+  the latest builds of cppyy
 
 # How to use this Repository
 
@@ -95,6 +97,14 @@ TODO
 * `pixi run install-cppyy-from-upstream` -- to install `cppyy` from `upstream/cppyy` assuming its dependencies are present
 * `pixi run install` -- to install `cppyy` and its dependencies from `patched/`
 * `pixi run test` -- run pytest tests defined in `upstream/cppyy/test` assuming cppyy is installed already
+* `pixi run install-flatsurf` -- to install the flatsurf suite from `downstream/`
+* `pixi run install-gmpxxyy` -- to install `gmpxxyy` from `downstream/`
+* `pixi run test-gmpxxyy` -- to run the `gmpxxyy` test suite from `downstream/`
+* `pixi run install-cppyythonizations` -- to install `cppyythonizations` from `downstream/`
+* `pixi run test-cppyythonizations` -- to run the cppyythonizations test suite from `downstream/`, assuming that cppyythonizations has been installed already
+* `pixi run install-pyeantic` -- to install `pyeantic` and its dependencies from `downstream`
+* `pixi run test-pyeantic` -- to run the pyeantic test suite from `downstream/`
+* Same `install-*` and `test-*` for `pyexactreal`, `pyintervalxt`, `pyflatsurf`, and `sage-flatsurf`
 
 # Upstream Repository Layout and Build Process
 

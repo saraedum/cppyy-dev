@@ -31,3 +31,24 @@
 [submodule "patched/cppyy"]
 	path = patched/cppyy
 	url = https://github.com/saraedum/cppyy-dev.git
+[submodule "downstream/gmpxxyy"]
+	path = downstream/gmpxxyy
+	url = https://github.com/flatsurf/gmpxxyy.git
+[submodule "downstream/cppyythonizations"]
+	path = downstream/cppyythonizations
+	url = https://github.com/flatsurf/cppyythonizations.git
+[submodule "downstream/e-antic"]
+	path = downstream/e-antic
+	url = https://github.com/flatsurf/e-antic.git
+[submodule "downstream/intervalxt"]
+	path = downstream/intervalxt
+	url = https://github.com/flatsurf/intervalxt.git
+[submodule "downstream/exact-real"]
+	path = downstream/exact-real
+	url = https://github.com/flatsurf/exact-real.git
+[submodule "downstream/flatsurf"]
+	path = downstream/flatsurf
+	url = https://github.com/flatsurf/flatsurf.git
+[submodule "downstream/sage-flatsurf"]
+	path = downstream/sage-flatsurf
+	url = https://github.com/flatsurf/sage-flatsurf.git
