@@ -214,7 +214,7 @@ cwd = "upstream/cppyy"
 depends-on = ["install-flatsurf-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-pyeantic", "install-pyintervalxt", "install-pyflatsurf", "install-sage-flatsurf"]
 
 [feature.cppyy-dev.tasks.install-flatsurf-dependencies]
-cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml"
+cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml && pip install realalg"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
 cmd = "pytest --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
@@ -237,6 +237,20 @@ cwd = "downstream/gmpxxyy"
 depends-on = ["build-gmpxxyy"]
 cmd = "make check"
 cwd = "downstream/gmpxxyy"
+
+[feature.cppyy-dev.tasks.build-e-antic]
+cmd = "./bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC=ccache' '$CC CXX=ccache' '$CXX && make"
+cwd = "downstream/e-antic"
+
+[feature.cppyy-dev.tasks.install-e-antic]
+depends-on = ["build-e-antic"]
+cmd = "make install"
+cwd = "downstream/e-antic"
+
+[feature.cppyy-dev.tasks.test-e-antic]
+depends-on = ["build-e-antic"]
+cmd = "make check"
+cwd = "downstream/e-antic"
 
 [feature.cppyy-dev-conda-forge.tasks.install]
 depends-on = ["install-cppyy-from-patched"]
