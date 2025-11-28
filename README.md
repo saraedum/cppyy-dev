@@ -97,12 +97,12 @@ TODO
 * `pixi run install-cppyy-from-upstream` -- to install `cppyy` from `upstream/cppyy` assuming its dependencies are present
 * `pixi run install` -- to install `cppyy` and its dependencies from `patched/`
 * `pixi run test` -- run pytest tests defined in `upstream/cppyy/test` assuming cppyy is installed already
-* `pixi run install-flatsurf` -- to install the flatsurf suite from `downstream/`
+* `pixi run install-flatsurf-suite` -- to install the flatsurf suite from `downstream/`
 * `pixi run test-cppyythonizations` -- to run the cppyythonizations test suite from `downstream/`
 * `pixi run install-cppyythonizations` -- to install `cppyythonizations` from `downstream/` assuming that its dependencies are already installed
 * `pixi run test-gmpxxyy` -- to run the `gmpxxyy` test suite from `downstream/`
 * `pixi run install-gmpxxyy` -- to install `gmpxxyy` from `downstream/`, assuming that its dependencies are already installed
-* Same `install-*` and `test-*` for `pyeantic`, `pyexactreal`, `pyintervalxt`, `pyflatsurf`, and `sage-flatsurf`
+* Same `install-*` and `test-*` for `e-antic`, `exact-real`, `intervalxt`, `flatsurf`, and `sage-flatsurf`
 
 # Upstream Repository Layout and Build Process
 

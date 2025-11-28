@@ -210,11 +210,12 @@ cwd = "patched/cppyy"
 cmd = "pip install --no-deps --no-build-isolation -vv ."
 cwd = "upstream/cppyy"
 
-[feature.cppyy-dev.tasks.install-flatsurf]
-depends-on = ["install-flatsurf-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-pyeantic", "install-pyintervalxt", "install-pyflatsurf", "install-sage-flatsurf"]
+[feature.cppyy-dev.tasks.install-flatsurf-suite]
+depends-on = ["install-flatsurf-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-e-antic", "install-exact-real", "install-intervalxt", "install-flatsurf", "install-sage-flatsurf"]
 
-[feature.cppyy-dev.tasks.install-flatsurf-dependencies]
-cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml && pip install realalg"
+[feature.cppyy-dev.tasks.install-flatsurf-suite-dependencies]
+# TODO: Teach intervalxt to handle fmt=12.
+cmd = "mamba install sagelib ipywidgets boost-cpp ruamel.yaml benchmark fmt=11.'*' gmpxxll && pip install realalg"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
 cmd = "pytest --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
@@ -251,6 +252,48 @@ cwd = "downstream/e-antic"
 depends-on = ["build-e-antic"]
 cmd = "make check"
 cwd = "downstream/e-antic"
+
+[feature.cppyy-dev.tasks.build-exact-real]
+cmd = "./bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC=ccache' '$CC CXX=ccache' '$CXX && make"
+cwd = "downstream/exact-real"
+
+[feature.cppyy-dev.tasks.install-exact-real]
+depends-on = ["build-exact-real"]
+cmd = "make install"
+cwd = "downstream/exact-real"
+
+[feature.cppyy-dev.tasks.test-exact-real]
+depends-on = ["build-exact-real"]
+cmd = "make check"
+cwd = "downstream/exact-real"
+
+[feature.cppyy-dev.tasks.build-intervalxt]
+cmd = "./bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC=ccache' '$CC CXX=ccache' '$CXX && make"
+cwd = "downstream/intervalxt"
+
+[feature.cppyy-dev.tasks.install-intervalxt]
+depends-on = ["build-intervalxt"]
+cmd = "make install"
+cwd = "downstream/intervalxt"
+
+[feature.cppyy-dev.tasks.test-intervalxt]
+depends-on = ["build-intervalxt"]
+cmd = "make check"
+cwd = "downstream/intervalxt"
+
+[feature.cppyy-dev.tasks.build-flatsurf]
+cmd = "./bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC=ccache' '$CC CXX=ccache' '$CXX && make"
+cwd = "downstream/flatsurf"
+
+[feature.cppyy-dev.tasks.install-flatsurf]
+depends-on = ["build-flatsurf"]
+cmd = "make install"
+cwd = "downstream/flatsurf"
+
+[feature.cppyy-dev.tasks.test-flatsurf]
+depends-on = ["build-flatsurf"]
+cmd = "make check"
+cwd = "downstream/flatsurf"
 
 [feature.cppyy-dev-conda-forge.tasks.install]
 depends-on = ["install-cppyy-from-patched"]
