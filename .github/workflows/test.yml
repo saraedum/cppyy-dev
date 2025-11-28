@@ -6,11 +6,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cppyy-cling-install:
+  cppyy-cling:
     runs-on: "${{ matrix.on }}"
     strategy:
       matrix:
         environment: ["cppyy-cling-dev-builtin-llvm", "cppyy-cling-dev-conda-forge-llvm"]
+        task: ["install-cppyy-cling-from-patched", "install-cppyy-cling-from-upstream"]
+        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+        exclude:
+        # We cannot build an unpatched cppyy-cling against our clang due to the misordering of static clang dependencies when linking
+        - environment: cppyy-cling-dev-conda-forge-llvm
+          task: install-cppyy-cling-from-upstream
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.59.0
+        environments: ${{ matrix.environment }}
+        activate-environment: true
+    - name: Run install task
+      run: VERBOSE=1 pixi run ${{ matrix.task }}
+  cppyy-backend:
+    runs-on: "${{ matrix.on }}"
+    strategy:
+      matrix:
+        environment: ["cppyy-backend-dev-conda-forge", "cppyy-backend-dev-pypi"]
+        task: ["install-cppyy-backend-from-patched", "install-cppyy-backend-from-upstream"]
         on: ["ubuntu-24.04", "macos-13", "macos-14"]
     steps:
     - uses: actions/checkout@v5
@@ -22,4 +45,40 @@ jobs:
         environments: ${{ matrix.environment }}
         activate-environment: true
     - name: Run install task
-      run: VERBOSE=1 pixi run install
+      run: VERBOSE=1 pixi run ${{ matrix.task }}
+  cpycppyy:
+    runs-on: "${{ matrix.on }}"
+    strategy:
+      matrix:
+        environment: ["cpycppyy-dev-conda-forge", "cpycppyy-dev-pypi"]
+        task: ["install-cpycppyy-from-patched", "install-cpycppyy-from-upstream"]
+        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.59.0
+        environments: ${{ matrix.environment }}
+        activate-environment: true
+    - name: Run install task
+      run: VERBOSE=1 pixi run ${{ matrix.task }}
+  cppyy:
+    runs-on: "${{ matrix.on }}"
+    strategy:
+      matrix:
+        environment: ["cppyy-dev-conda-forge", "cppyy-dev-pypi"]
+        task: ["install-cppyy-from-patched", "install-cppyy-from-upstream"]
+        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.59.0
+        environments: ${{ matrix.environment }}
+        activate-environment: true
+    - name: Run install task
+      run: VERBOSE=1 pixi run ${{ matrix.task }}
