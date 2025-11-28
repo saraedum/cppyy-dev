@@ -87,8 +87,10 @@ cpycppyy = "==1.12.16"
 cppyy = "==3.1.2"
 
 [feature.cppyy-dev.dependencies]
-pytest = "*"
 make = "*"
+pytest = "*"
+pytest-xdist = ">=3.8.0,<4"
+pytest-forked = ">=1.6.0,<2"
 
 [feature.cppyy-pypi.target.linux-64.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
@@ -187,10 +189,9 @@ depends-on = ["install-cpycppyy-from-patched"]
 
 [feature.cppyy-dev.tasks.test]
 # TODO: Tests do not pass:
-# In cppyy-pypi, we get stltypes.cxx:18:59: error: 'operator!=' is not a template function
-# In cppyy-conda-forge (and all other setups) we get a segfault.
-# I should report this upstream and find out how to make this pass.
-cmd = "make clean && make && make test"
+# In cppyy-pypi, 36 failed, quite a few segfaults.
+# In cppyy-conda-forge, 31 failed, quite a few segfaults.
+cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest --forked -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "upstream/cppyy/test"
 
 [feature.cppyy-dev.tasks.install-cppyy-from-pypi]
