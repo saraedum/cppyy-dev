@@ -20,9 +20,9 @@ namespace utils {
 
 namespace platform {
 #if defined(LLVM_ON_UNIX)
-  const char* const kEnvDelim = ":";
+  const char* const kEnvDelim __attribute__((used)) = ":";
 #elif defined(_WIN32)
-  const char* const kEnvDelim = ";";
+  const char* const kEnvDelim __attribute__((used)) = ";";
 #else
   #error "Unknown platform (environmental delimiter)"
 #endif
