@@ -82,3 +82,20 @@ jobs:
         activate-environment: true
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.task }}
+    # TODO: Run tests here
+  cppyy-binary:
+    runs-on: "${{ matrix.on }}"
+    strategy:
+      matrix:
+        environment: ["cppyy-pypi", "cppyy-conda-forge"]
+        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.59.0
+        environments: ${{ matrix.environment }}
+        activate-environment: true
+    # TODO: Run tests here
