@@ -177,7 +177,7 @@ cwd = "patched/cpycppyy"
 
 [feature.cpycppyy-dev.tasks.install-cpycppyy-from-upstream]
 cmd = "pip install --no-deps --no-build-isolation -vv ."
-cwd = "upstream/cpycppyy"
+cwd = "upstream/CPyCppyy"
 
 [feature.cpycppyy-dev-conda-forge.tasks.install]
 depends-on = ["install-cpycppyy-from-patched"]
