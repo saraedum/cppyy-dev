@@ -51,13 +51,13 @@ We provide the following pixi environments:
   `upstream/cppyy-backend` with `cppyy-cling` provided by `patched/cppyy-cling`
   configured to use the builtin cppyy-patched LLVM.
 * `cppyy-backend-dev-local-conda-forge-llvm` same but using
-  `patechd/cppyy-cling` built to use conda-forge's LLVM.
+  `patched/cppyy-cling` built to use conda-forge's LLVM.
 * `cppyy-backend-dev-conda-forge` to work on `patched/cppyy-backend` or
   `upstream/cppyy-backend/clingwrapper` with `cppyy-cling` provided by conda-forge.
 * `cppyy-backend-dev-pypi` same but with `cppyy-cling` provided by PyPI.
 * `cpycppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
 * `cppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
-* `cppyy-pypi`, an installation of vanilla cppyy as published PyPI
+* `cppyy-pypi`, an installation of vanilla cppyy as published on PyPI
 * `cppyy-conda-forge`, an installation of cppyy as published on conda-forge
 
 ## pixi Tasks
