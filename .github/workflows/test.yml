@@ -36,6 +36,7 @@ jobs:
   cppyy-backend:
     runs-on: "${{ matrix.on }}"
     strategy:
+      fail-fast: false
       matrix:
         environment: ["cppyy-backend-dev-conda-forge", "cppyy-backend-dev-pypi"]
         task: ["install-cppyy-backend-from-patched", "install-cppyy-backend-from-upstream"]
@@ -54,6 +55,7 @@ jobs:
   cpycppyy:
     runs-on: "${{ matrix.on }}"
     strategy:
+      fail-fast: false
       matrix:
         environment: ["cpycppyy-dev-conda-forge", "cpycppyy-dev-pypi"]
         task: ["install-cpycppyy-from-patched", "install-cpycppyy-from-upstream"]
@@ -72,6 +74,7 @@ jobs:
   cppyy:
     runs-on: "${{ matrix.on }}"
     strategy:
+      fail-fast: false
       matrix:
         environment: ["cppyy-dev-conda-forge", "cppyy-dev-pypi", "cppyy-pypi", "cppyy-conda-forge"]
         on: ["ubuntu-24.04", "macos-13", "macos-14"]
