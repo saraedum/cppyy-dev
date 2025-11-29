@@ -230,7 +230,7 @@ cmd = "make check"
 cwd = "downstream/gmpxxyy"
 
 [feature.cppyy-dev.tasks.build-e-antic]
-cmd = './bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC="ccache $CC" CXX="ccache $CXX" && make V=1'
+cmd = './bootstrap && CC="ccache $CC" CXX="ccache $CXX" ./configure --without-doc --prefix=$CONDA_PREFIX && make V=1'
 cwd = "downstream/e-antic"
 
 [feature.cppyy-dev.tasks.install-e-antic]
@@ -244,7 +244,7 @@ cmd = "make check"
 cwd = "downstream/e-antic"
 
 [feature.cppyy-dev.tasks.build-exact-real]
-cmd = './bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC="ccache $CC" CXX="ccache $CXX" && make V=1'
+cmd = './bootstrap && CC="ccache $CC" CXX="ccache $CXX" ./configure --without-doc --prefix=$CONDA_PREFIX && make V=1'
 cwd = "downstream/exact-real"
 
 [feature.cppyy-dev.tasks.install-exact-real]
@@ -258,7 +258,7 @@ cmd = "make check"
 cwd = "downstream/exact-real"
 
 [feature.cppyy-dev.tasks.build-intervalxt]
-cmd = './bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC="ccache $CC" CXX="ccache $CXX" && make V=1'
+cmd = './bootstrap && CC="ccache $CC" CXX="ccache $CXX" ./configure --without-doc --prefix=$CONDA_PREFIX && make V=1'
 cwd = "downstream/intervalxt"
 
 [feature.cppyy-dev.tasks.install-intervalxt]
@@ -272,7 +272,7 @@ cmd = "make check"
 cwd = "downstream/intervalxt"
 
 [feature.cppyy-dev.tasks.build-flatsurf]
-cmd = './bootstrap && ./configure --without-doc --prefix=$CONDA_PREFIX CC="ccache $CC" CXX="ccache $CXX" && make V=1'
+cmd = './bootstrap && CC="ccache $CC" CXX="ccache $CXX" ./configure --without-doc --prefix=$CONDA_PREFIX && make V=1'
 cwd = "downstream/flatsurf"
 
 [feature.cppyy-dev.tasks.install-flatsurf]
