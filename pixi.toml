@@ -120,28 +120,16 @@ cwd = "patched/cppyy-cling"
 cmd = "mkdir -p build && cd build && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF"
 cwd = "patched/cppyy-cling"
 
-[feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-builtin-llvm]
-cmd = "mkdir -p builddir && cd builddir && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=ON -Dbuiltin_clang=ON"
-cwd = "upstream/cppyy-backend/cling"
-
-[feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-conda-forge-llvm]
-cmd = "mkdir -p builddir && cd builddir && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF"
-cwd = "upstream/cppyy-backend/cling"
-
 [feature.cppyy-cling-dev.tasks.build-cppyy-cling-patched]
 cmd = "make"
 cwd = "patched/cppyy-cling/build"
-
-[feature.cppyy-cling-dev.tasks.build-cppyy-cling-upstream]
-cmd = "make"
-cwd = "upstream/cppyy-backend/cling/builddir"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-patched]
 cmd = "python setup.py install --skip-build"
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-upstream]
-cmd = "python setup.py install --skip-build"
+cmd = "python setup.py install"
 cwd = "upstream/cppyy-backend/cling"
 
 [feature.cppyy-cling-dev-builtin-llvm.tasks.install-cppyy-cling-from-patched]
@@ -151,10 +139,7 @@ depends-on = ["configure-cppyy-cling-patched-builtin-llvm", "build-cppyy-cling-p
 depends-on = ["configure-cppyy-cling-patched-conda-forge-llvm", "build-cppyy-cling-patched", "install-cppyy-cling-patched"]
 
 [feature.cppyy-cling-dev-builtin-llvm.tasks.install-cppyy-cling-from-upstream]
-depends-on = ["create-src-directory", "configure-cppyy-cling-upstream-builtin-llvm", "build-cppyy-cling-upstream", "install-cppyy-cling-upstream"]
-
-[feature.cppyy-cling-dev-conda-forge-llvm.tasks.install-cppyy-cling-from-upstream]
-depends-on = ["create-src-directory", "configure-cppyy-cling-upstream-conda-forge-llvm", "build-cppyy-cling-upstream", "install-cppyy-cling-upstream"]
+depends-on = ["create-src-directory", "install-cppyy-cling-upstream"]
 
 [feature.cppyy-cling-dev-builtin-llvm.tasks.install]
 depends-on = ["install-cppyy-cling-from-patched"]
