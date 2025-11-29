@@ -19,8 +19,7 @@ jobs:
         - environment: cppyy-cling-dev-conda-forge-llvm
           task: install-cppyy-cling-from-upstream
         # We cannot build an unpatched cppyy-cling on macos-14 due to RTTI being incorrect for InterpreterCallback.cpp
-        - environment: cppyy-cling-dev-builtinllvm
-          task: install-cppyy-cling-from-upstream
+        - task: install-cppyy-cling-from-upstream
           on: macos-14
     steps:
     - uses: actions/checkout@v5
