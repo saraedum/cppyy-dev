@@ -58,7 +58,9 @@ sed = "*"
 setuptools = "*"
 zlib = "*"
 
-[feature.builtin-llvm.dependencies]
+[feature.builtin-llvm.target.osx.dependencies]
+# cppyy-cling vendors clang 13. However, recent versions of libcxx do not support such an old clang and fail with "Libc++ only supports Clang 17 and later".
+libcxx = "<19"
 
 [feature.conda-forge-llvm.dependencies]
 clangdev = { version="13.*", build="root_63004*" }
@@ -97,9 +99,9 @@ pytest-xdist = "*"
 [feature.cppyy-dev.pypi-dependencies]
 pytest-isolate = "*"
 
-[feature.cppyy-pypi.target.linux-64.dependencies]
+[feature.cppyy-pypi.target.linux.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
-gcc = "11.*"
+gcc = "<12"
 
 #########
 # TASKS #
