@@ -9,6 +9,7 @@ jobs:
   cppyy-cling:
     runs-on: "${{ matrix.on }}"
     strategy:
+      fail-fast: false
       matrix:
         environment: ["cppyy-cling-dev-builtin-llvm", "cppyy-cling-dev-conda-forge-llvm"]
         task: ["install-cppyy-cling-from-patched", "install-cppyy-cling-from-upstream"]
