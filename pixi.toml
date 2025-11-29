@@ -99,6 +99,7 @@ pytest-xdist = "*"
 
 [feature.cppyy-dev.pypi-dependencies]
 pytest-isolate = "*"
+pytest-timeout = "*"
 
 [feature.cppyy-pypi.target.linux.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
@@ -199,7 +200,8 @@ depends-on = ["install-cpycppyy-from-patched"]
 # TODO: Tests do not pass:
 # In cppyy-pypi, 36 failed, quite a few segfaults.
 # In cppyy-conda-forge, 31 failed, quite a few segfaults.
-cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest --isolate -n$(nproc || sysctl -n hw.ncpu)"
+# In CI, tests sometimes hang, so we set a timeout to terminate them anyway.
+cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest --isolate --timeout=60 -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "upstream/cppyy/test"
 
 [feature.cppyy-dev.tasks.install-cppyy-from-pypi]
