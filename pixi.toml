@@ -121,11 +121,11 @@ cmd = "mkdir -p build && cd build && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-builtin-llvm]
-cmd = "mkdir -p build && cd build && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=ON -Dbuiltin_clang=ON"
+cmd = "mkdir -p builddir && cd builddir && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=ON -Dbuiltin_clang=ON"
 cwd = "upstream/cppyy-backend/cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-upstream-conda-forge-llvm]
-cmd = "mkdir -p build && cd build && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF"
+cmd = "mkdir -p builddir && cd builddir && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF"
 cwd = "upstream/cppyy-backend/cling"
 
 [feature.cppyy-cling-dev.tasks.build-cppyy-cling-patched]
@@ -134,7 +134,7 @@ cwd = "patched/cppyy-cling/build"
 
 [feature.cppyy-cling-dev.tasks.build-cppyy-cling-upstream]
 cmd = "make"
-cwd = "upstream/cppyy-backend/cling/build"
+cwd = "upstream/cppyy-backend/cling/builddir"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-patched]
 cmd = "python setup.py install --skip-build"
