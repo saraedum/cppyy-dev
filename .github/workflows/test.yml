@@ -32,6 +32,8 @@ jobs:
         activate-environment: true
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.task }}
+    - uses: flatsurf/actions/show-logs@main
+      if: ${{ always() }}
   cppyy-backend:
     runs-on: "${{ matrix.on }}"
     strategy:
@@ -51,6 +53,8 @@ jobs:
         activate-environment: true
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.task }}
+    - uses: flatsurf/actions/show-logs@main
+      if: ${{ always() }}
   cpycppyy:
     runs-on: "${{ matrix.on }}"
     strategy:
@@ -70,6 +74,8 @@ jobs:
         activate-environment: true
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.task }}
+    - uses: flatsurf/actions/show-logs@main
+      if: ${{ always() }}
   cppyy:
     runs-on: "${{ matrix.on }}"
     strategy:
@@ -135,3 +141,5 @@ jobs:
     - name: Run sage-flatsurf test suite
       run: pixi run test-sage-flatsurf
       continue-on-error: true
+    - uses: flatsurf/actions/show-logs@main
+      if: ${{ always() }}
