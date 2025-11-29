@@ -35,11 +35,12 @@ cppyy-conda-forge = ["cppyy-dev", "cppyy-conda-forge"]
 # DEPENDENCIES #
 ################
 [dependencies]
+ccache = "*"
+cxx-compiler = "*"
+jq = "*"
+mamba = "*"
 pip = "*"
 setuptools = "*"
-cxx-compiler = "*"
-ccache = "*"
-mamba = "*"
 
 [feature.feedstock-dev.dependencies]
 conda-build = "*"

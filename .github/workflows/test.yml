@@ -92,6 +92,9 @@ jobs:
         pixi-version: v0.59.0
         environments: ${{ matrix.environment }}
         activate-environment: true
+    - name: Pin installed cppyy
+      run: mamba list --json |  jq -r '.[] | select(.name=="cppyy") | "\(.name) ==\(.version)"' > $CONDA_PREFIX/conda-meta/pinned
+      if: ${{ matrix.environment == "cppyy-conda-forge" }}
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.installation }}
       if: ${{ matrix.installation }}
