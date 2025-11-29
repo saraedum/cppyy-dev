@@ -220,7 +220,7 @@ depends-on = ["install-flatsurf-suite-dependencies", "install-gmpxxyy", "install
 
 [feature.cppyy-dev.tasks.install-flatsurf-suite-dependencies]
 # TODO: Teach intervalxt to handle fmt=12.
-cmd = "mamba install autoconf automake make sagelib ipywidgets boost-cpp ruamel.yaml benchmark hatchling surface-dynamics fmt=11.'*' gmpxxll more-itertools matplotlib-base && pip install realalg bidict"
+cmd = "mamba install autoconf automake libtool make sagelib ipywidgets boost-cpp ruamel.yaml benchmark hatchling surface-dynamics fmt=11.'*' gmpxxll more-itertools matplotlib-base && pip install realalg bidict"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
 cmd = "pytest --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
