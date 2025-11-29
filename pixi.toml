@@ -213,7 +213,7 @@ cmd = "pip install --no-deps --no-build-isolation -vv ."
 cwd = "upstream/cppyy"
 
 [feature.cppyy-dev.tasks.install-flatsurf-suite]
-depends-on = ["install-flatsurf-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-e-antic", "install-exact-real", "install-intervalxt", "install-flatsurf", "install-sage-flatsurf"]
+depends-on = ["install-flatsurf-suite-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-e-antic", "install-exact-real", "install-intervalxt", "install-flatsurf", "install-sage-flatsurf"]
 
 [feature.cppyy-dev.tasks.install-flatsurf-suite-dependencies]
 # TODO: Teach intervalxt to handle fmt=12.
