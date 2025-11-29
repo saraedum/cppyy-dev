@@ -324,3 +324,7 @@ CMAKE_ARGS = "-DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX"
 # runtime_cxxmodules: (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build; also disabled by upstream's setup.py
 # CMAKE_CXX_STANDARD: clang at least is using some C++17 features
 CMAKE_ARGS_CPPYY_CLING = "-Dbuiltin_cling=ON -Druntime_cxxmodules=OFF -DCMAKE_CXX_STANDARD=17"
+
+[feature.cppyy-cling-dev.activation.env]
+# enum-constexpr-conversion: to ignore this compile error on modern compilers: integer value 536870912 is outside the valid range of values [0, 63] for the enumeration type 'EProperty'
+CXXFLAGS = "$CXXFLAGS -Wno-enum-constexpr-conversion"
