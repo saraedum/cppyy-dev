@@ -273,6 +273,11 @@ cwd = "downstream/exact-real"
 cmd = './bootstrap && CC="ccache $CC" CXX="ccache $CXX" ./configure --without-doc --prefix=$CONDA_PREFIX && make V=1'
 cwd = "downstream/intervalxt"
 
+[feature.cppyy-dev.target.osx.tasks.build-intervalxt]
+# re-enable mem_fun_ref in macOS when building with C++17 (used by dependency PPL.)
+cmd = './bootstrap && CC="ccache $CC" CXX="ccache $CXX" CXXFLAGS="$CXXFLAGS -D_LIBCPP_ENABLE_CXX17_REMOVED_BINDERS" ./configure --without-doc --prefix=$CONDA_PREFIX && make V=1'
+cwd = "downstream/intervalxt"
+
 [feature.cppyy-dev.tasks.install-intervalxt]
 depends-on = ["build-intervalxt"]
 cmd = "make install"
