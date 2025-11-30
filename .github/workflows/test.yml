@@ -91,6 +91,13 @@ jobs:
             installation: install-cppyy-from-patched
           - environment: cppyy-dev-pypi
             installation: install-cppyy-from-patched
+        exclude:
+          # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
+          - environment: cppyy-pypi
+            on: macos-13
+          # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
+          - environment: cppyy-pypi
+            on: macos-14
     steps:
     - uses: actions/checkout@v5
       with:
