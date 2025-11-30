@@ -111,6 +111,11 @@ jobs:
       run: pixi run test || true
     - name: Prepare for downstream tests
       run: pixi run install-flatsurf-suite-dependencies
+    # Known errors:
+    # * cppyy-{dev-,}conda-forge/ubuntu-24.04 fails in the pickling tests with:
+    #   ```
+    #   AttributeError: 'vector<int>' object has no attribute 'to_json'
+    #   ```
     - name: Run cppyythonizations test suite
       run: pixi run test-cppyythonizations
       continue-on-error: true
