@@ -127,7 +127,7 @@ jobs:
     - name: Install gmpxxyy for later tests
       run: pixi run install-gmpxxyy
     # Known errors:
-    # * cppyy-pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
+    # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
     #   ```
     #   static boost::intrusive_ptr<const eantic::renf_class> eantic::renf_class::make(const std::string& minpoly, const std::string& gen, const std::function<std::string(long)> emb, slong prec = 64) =>
     #   TypeError: could not convert argument 3
@@ -138,10 +138,15 @@ jobs:
     - name: Install e-antic for later tests
       run: pixi run install-e-antic
     # Known errors:
-    # * cppyy-pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
+    # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
     #   ```
     #   static boost::intrusive_ptr<const eantic::renf_class> eantic::renf_class::make(const std::string& minpoly, const std::string& gen, const std::function<std::string(long)> emb, slong prec = 64) =>
     #   TypeError: could not convert argument 3
+    #   ```
+    # * cppyy-dev-pypi/macos-14 fails to find a symbol (probably due to different symbol mangling of enable_if)
+    #   ```
+    #   IncrementalExecutor::executeFunction: symbol '_ZN9exactreal7ElementINS_11NumberFieldEEmLILb1ELb1EEERS2_RKN6eantic15renf_elem_classE' unresolved while linking symbol '__cf_40'!
+    #   You are probably missing the definition of exactreal::Element<exactreal::NumberField>& exactreal::Element<exactreal::NumberField>::operator*=<true, true>(eantic::renf_elem_class const&)
     #   ```
     - name: Run exact-real test suite
       run: pixi run test-exact-real
