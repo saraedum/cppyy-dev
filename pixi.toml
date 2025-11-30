@@ -40,7 +40,9 @@ cxx-compiler = "*"
 jq = "*"
 mamba = "*"
 pip = "*"
-setuptools = "*"
+# Work around https://github.com/wlav/cppyy/issues/292
+# This is not experienced by all configurations so we maybe would actually only need this for an upstream cppyy or CPyCppyy.
+setuptools = "<76"
 
 [feature.feedstock-dev.dependencies]
 conda-build = "*"
