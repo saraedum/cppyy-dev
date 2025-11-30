@@ -102,7 +102,7 @@ pytest-isolate = "*"
 pytest-timeout = "*"
 
 [feature.cppyy-pypi.target.linux.dependencies]
-# Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285
+# Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285 and https://github.com/llvm/llvm-project/issues/52696#issuecomment-1010369642
 gcc = "<12"
 
 #########
@@ -130,6 +130,11 @@ cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-upstream]
 cmd = "python setup.py install"
+cwd = "upstream/cppyy-backend/cling"
+
+[feature.cppyy-cling-dev.target.linux.tasks.install-cppyy-cling-upstream]
+# We need to disable C++20 features since the builtin clang cannot handle the GCC C++ headers yet, see https://github.com/llvm/llvm-project/issues/52696#issuecomment-1010369642
+cmd = "STDCXX=17 python setup.py install"
 cwd = "upstream/cppyy-backend/cling"
 
 [feature.cppyy-cling-dev-builtin-llvm.tasks.install-cppyy-cling-from-patched]
