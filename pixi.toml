@@ -103,6 +103,12 @@ pytest-timeout = "*"
 
 [feature.cppyy-pypi.target.linux.dependencies]
 # Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285 and https://github.com/llvm/llvm-project/issues/52696#issuecomment-1010369642
+# So in environments where we use the vendored clang, we need to make sure to use an old stdlib (or force std=c++17.)
+gcc = "<12"
+
+[feature.cppyy-dev-pypi.target.linux.dependencies]
+# Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285 and https://github.com/llvm/llvm-project/issues/52696#issuecomment-1010369642
+# So in environments where we use the vendored clang, we need to make sure to use an old stdlib (or force std=c++17.)
 gcc = "<12"
 
 #########
