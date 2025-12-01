@@ -198,7 +198,7 @@ depends-on = ["install-cpycppyy-from-patched"]
 depends-on = ["install-cpycppyy-from-patched"]
 
 [feature.cppyy-dev.tasks.test]
-# TODO: Tests do not pass:
+# Tests do not pass, we should check with upstream what we're doing wrong:
 # In cppyy-pypi, 36 failed, quite a few segfaults.
 # In cppyy-conda-forge, 31 failed, quite a few segfaults.
 # In CI, tests sometimes hang, so we set a timeout to terminate them anyway.
