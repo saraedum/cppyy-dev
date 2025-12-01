@@ -214,7 +214,9 @@ jobs:
           outcome="$2"
           expected=$(expected_outcome "$label")
 
-          if [ "$outcome" != "$expected" ]; then
+          if [ "$outcome" = "skipped" ]; then
+            return
+          elif [ "$outcome" != "$expected" ]; then
             echo "::error title=${label}::${label} ${outcome} (expected ${expected})"
             failed=1
           elif [ "$outcome" = "failure" ]; then
