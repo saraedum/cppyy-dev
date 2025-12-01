@@ -202,7 +202,7 @@ depends-on = ["install-cpycppyy-from-patched"]
 # In cppyy-pypi, 36 failed, quite a few segfaults.
 # In cppyy-conda-forge, 31 failed, quite a few segfaults.
 # In CI, tests sometimes hang, so we set a timeout to terminate them anyway.
-cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest -p pytest_isolate -p pytest_xdist --isolate --isolate-timeout=60 -n$(nproc || sysctl -n hw.ncpu)"
+cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest -p pytest_isolate -p xdist --isolate --isolate-timeout=60 -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "upstream/cppyy/test"
 
 [feature.cppyy-dev.tasks.install-cppyy-from-pypi]
@@ -223,7 +223,7 @@ depends-on = ["install-flatsurf-suite-dependencies", "install-gmpxxyy", "install
 cmd = "mamba install autoconf automake benchmark boost-cpp fmt gmpxxll hatchling ipywidgets libtool make matplotlib-base more-itertools ppl ruamel.yaml sagelib surface-dynamics && pip install bidict realalg"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
-cmd = "pytest -p pytest_isolate -p pytest_xdist --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
+cmd = "pytest -p pytest_isolate -p xdist --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "downstream/cppyythonizations"
 
 [feature.cppyy-dev.tasks.install-cppyythonizations]
