@@ -136,7 +136,7 @@ cmd = "make"
 cwd = "patched/cppyy-cling/builddir"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-patched]
-cmd = "python setup.py install --skip-build"
+cmd = "python setup.py install"
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-upstream]
