@@ -114,59 +114,121 @@ jobs:
       run: VERBOSE=1 pixi run ${{ matrix.installation }}
       if: ${{ matrix.installation }}
     - name: Run cppyy test suite
-      # Currently, test fails for a variety of reasons on all builds of cppyy, see pixi.toml
-      run: pixi run test || true
+      id: test-cppyy
+      run: pixi run test
+      continue-on-error: true
     - name: Prepare for downstream tests
       run: pixi run install-flatsurf-suite-dependencies
     - name: Run cppyythonizations test suite
+      id: test-cppyythonizations
       run: pixi run test-cppyythonizations
       continue-on-error: true
     - name: Install cppyythonizations for later tests
       run: pixi run install-cppyythonizations
     - name: Run gmpxxyy test suite
+      id: test-gmpxxyy
       run: pixi run test-gmpxxyy
       continue-on-error: true
     - name: Install gmpxxyy for later tests
       run: pixi run install-gmpxxyy
-    # Known errors:
-    # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
-    #   ```
-    #   static boost::intrusive_ptr<const eantic::renf_class> eantic::renf_class::make(const std::string& minpoly, const std::string& gen, const std::function<std::string(long)> emb, slong prec = 64) =>
-    #   TypeError: could not convert argument 3
-    #   ```
     - name: Run e-antic test suite
+      id: test-e-antic
       run: pixi run test-e-antic
       continue-on-error: true
     - name: Install e-antic for later tests
       run: pixi run install-e-antic
-    # Known errors:
-    # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
-    #   ```
-    #   static boost::intrusive_ptr<const eantic::renf_class> eantic::renf_class::make(const std::string& minpoly, const std::string& gen, const std::function<std::string(long)> emb, slong prec = 64) =>
-    #   TypeError: could not convert argument 3
-    #   ```
-    # * cppyy-dev-pypi/macos-14 fails to find a symbol (probably due to different symbol mangling of enable_if)
-    #   ```
-    #   IncrementalExecutor::executeFunction: symbol '_ZN9exactreal7ElementINS_11NumberFieldEEmLILb1ELb1EEERS2_RKN6eantic15renf_elem_classE' unresolved while linking symbol '__cf_40'!
-    #   You are probably missing the definition of exactreal::Element<exactreal::NumberField>& exactreal::Element<exactreal::NumberField>::operator*=<true, true>(eantic::renf_elem_class const&)
-    #   ```
     - name: Run exact-real test suite
+      id: test-exact-real
       run: pixi run test-exact-real
       continue-on-error: true
     - name: Install exact-real for later tests
       run: pixi run install-exact-real
     - name: Run intervalxt test suite
+      id: test-intervalxt
       run: pixi run test-intervalxt
       continue-on-error: true
     - name: Install intervalxt for later tests
       run: pixi run install-intervalxt
     - name: Run flatsurf test suite
+      id: test-flatsurf
       run: pixi run test-flatsurf
       continue-on-error: true
     - name: Install flatsurf for later tests
       run: pixi run install-flatsurf
     - name: Run sage-flatsurf test suite
+      id: test-sage-flatsurf
       run: pixi run test-sage-flatsurf
       continue-on-error: true
+    - name: Fail job if any downstream tests failed
+      if: ${{ always() }}
+      run: |
+        failed=0
+
+        expected_outcome() {
+          label="$1"
+          expected="success"
+          case "$label" in
+            "cppyy test suite")
+              # Currently, test fails for a variety of reasons on all builds of cppyy, see pixi.toml
+              expected="failure"
+              ;;
+            "gmpxxyy test suite")
+              # Known errors:
+              # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
+              #   ```
+              #   static boost::intrusive_ptr<const eantic::renf_class> eantic::renf_class::make(const std::string& minpoly, const std::string& gen, const std::function<std::string(long)> emb, slong prec = 64) =>
+              #   TypeError: could not convert argument 3
+              #   ```
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ && "${{ matrix.on }}" == "ubuntu-24.04" ]]; then
+                expected="failure"
+              fi
+              ;;
+            "exact-real test suite")
+              # Known errors:
+              # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda prec: str(something)` to the `std::function` below.
+              #   ```
+              #   static boost::intrusive_ptr<const eantic::renf_class> eantic::renf_class::make(const std::string& minpoly, const std::string& gen, const std::function<std::string(long)> emb, slong prec = 64) =>
+              #   TypeError: could not convert argument 3
+              #   ```
+              # * cppyy-dev-pypi/macos-14 fails to find a symbol (probably due to different symbol mangling of enable_if)
+              #   ```
+              #   IncrementalExecutor::executeFunction: symbol '_ZN9exactreal7ElementINS_11NumberFieldEEmLILb1ELb1EEERS2_RKN6eantic15renf_elem_classE' unresolved while linking symbol '__cf_40'!
+              #   You are probably missing the definition of exactreal::Element<exactreal::NumberField>& exactreal::Element<exactreal::NumberField>::operator*=<true, true>(eantic::renf_elem_class const&)
+              #   ```
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ && "${{ matrix.on }}" == "ubuntu-24.04" ]]; then
+                expected="failure"
+              elif [[ "${{ matrix.environment }}" == "cppyy-dev-pypi" && "${{ matrix.on }}" == "macos-14" ]]; then
+                expected="failure"
+              fi
+              ;;
+          esac
+          echo "$expected"
+        }
+
+        check() {
+          label="$1"
+          outcome="$2"
+          expected=$(expected_outcome "$label")
+
+          if [ "$outcome" != "$expected" ]; then
+            echo "::error title=${label}::${label} ${outcome} (expected ${expected})"
+            failed=1
+          elif [ "$outcome" = "failure" ]; then
+            echo "::warning title=${label}::${label} failed as expected"
+          fi
+        }
+
+        check "cppyy test suite" "${{ steps.test-cppyy.outcome }}"
+        check "cppyythonizations test suite" "${{ steps.test-cppyythonizations.outcome }}"
+        check "gmpxxyy test suite" "${{ steps.test-gmpxxyy.outcome }}"
+        check "e-antic test suite" "${{ steps.test-e-antic.outcome }}"
+        check "exact-real test suite" "${{ steps.test-exact-real.outcome }}"
+        check "intervalxt test suite" "${{ steps.test-intervalxt.outcome }}"
+        check "flatsurf test suite" "${{ steps.test-flatsurf.outcome }}"
+        check "sage-flatsurf test suite" "${{ steps.test-sage-flatsurf.outcome }}"
+
+        if [ "$failed" -ne 0 ]; then
+          exit 1
+        fi
     - uses: flatsurf/actions/show-logs@main
       if: ${{ always() }}
