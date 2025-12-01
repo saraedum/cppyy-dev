@@ -124,16 +124,16 @@ cmd = "./create_src_directory.py"
 cwd = "upstream/cppyy-backend/cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-patched-builtin-llvm]
-cmd = "mkdir -p build && cd build && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=ON -Dbuiltin_clang=ON"
+cmd = "mkdir -p builddir && cd builddir && cmake ../src -DCMAKE_INSTALL_PREFIX=`pwd`/install/cppyy_backend $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=ON -Dbuiltin_clang=ON"
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.configure-cppyy-cling-patched-conda-forge-llvm]
-cmd = "mkdir -p build && cd build && cmake ../src $CMAKE_ARGS $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF"
+cmd = "mkdir -p builddir && cd builddir && cmake ../src -DCMAKE_INSTALL_PREFIX=`pwd`/install/cppyy_backend $CMAKE_ARGS_CPPYY_CLING -Dbuiltin_llvm=OFF -Dbuiltin_clang=OFF"
 cwd = "patched/cppyy-cling"
 
 [feature.cppyy-cling-dev.tasks.build-cppyy-cling-patched]
 cmd = "make"
-cwd = "patched/cppyy-cling/build"
+cwd = "patched/cppyy-cling/builddir"
 
 [feature.cppyy-cling-dev.tasks.install-cppyy-cling-patched]
 cmd = "python setup.py install --skip-build"
@@ -333,7 +333,6 @@ depends-on = ["install-cppyy-from-patched"]
 MAKEFLAGS = "-j$(nproc || sysctl -n hw.ncpu)"
 CMAKE_C_COMPILER_LAUNCHER = "ccache"
 CMAKE_CXX_COMPILER_LAUNCHER = "ccache"
-CMAKE_ARGS = "-DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX"
 # builtin_cling: We want to build cling. That's why we're here.
 # runtime_cxxmodules: (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build; also disabled by upstream's setup.py
 # CMAKE_CXX_STANDARD: clang at least is using some C++17 features

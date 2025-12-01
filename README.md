@@ -155,7 +155,7 @@ an old tutorial (GSL Pythonization Tutorial) refers to it.
 ### Build Process
 
 Everything is driven by a complicated `setup.py`. Essentially, `cmake` builds
-LLVM and Cling, installs it, and then also installs the utilities in `python/`.
+LLVM and Cling, installs it into site-packages/cppyy_backend/, and then also installs the utilities in `python/`.
 
 ## cppyy-backend
 
