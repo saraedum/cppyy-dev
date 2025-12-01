@@ -220,7 +220,7 @@ cwd = "upstream/cppyy"
 depends-on = ["install-flatsurf-suite-dependencies", "install-gmpxxyy", "install-cppyythonizations", "install-e-antic", "install-exact-real", "install-intervalxt", "install-flatsurf", "install-sage-flatsurf"]
 
 [feature.cppyy-dev.tasks.install-flatsurf-suite-dependencies]
-cmd = "mamba install autoconf automake benchmark boost-cpp fmt gmpxxll hatchling ipywidgets libtool make matplotlib-base more-itertools ppl ruamel.yaml sagelib surface-dynamics && pip install bidict realalg"
+cmd = "mamba install -y autoconf automake benchmark boost-cpp fmt gmpxxll hatchling ipywidgets libtool make matplotlib-base more-itertools ppl ruamel.yaml sagelib surface-dynamics && pip install bidict realalg"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
 cmd = "pytest -p pytest_isolate -p xdist --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
