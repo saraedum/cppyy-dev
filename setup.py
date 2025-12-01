@@ -311,7 +311,6 @@ class my_install(_install):
 
 
 cmdclass = {
-        'build': my_cmake_build,
         'clean': my_clean,
         'install': my_install }
 
