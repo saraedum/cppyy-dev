@@ -84,13 +84,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: ["cppyy-dev-conda-forge", "cppyy-dev-pypi", "cppyy-pypi", "cppyy-conda-forge"]
+        environment: ["cppyy-dev-conda-forge", "cppyy-dev-pypi", "cppyy-pypi", "cppyy-conda-forge", "dev-builtin-llvm", "dev-conda-forge-llvm"]
         on: ["ubuntu-24.04", "macos-13", "macos-14"]
         include:
           - environment: cppyy-dev-conda-forge
             installation: install-cppyy-from-patched
           - environment: cppyy-dev-pypi
             installation: install-cppyy-from-patched
+          - environment: dev-builtin-llvm
+            installation: install
+          - environment: dev-conda-forge-llvm
+            installation: install
         exclude:
           # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
           - environment: cppyy-pypi

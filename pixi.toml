@@ -7,29 +7,23 @@ version = "6.30.0"
 [environments]
 feedstock-dev = ["feedstock-dev"]
 
-cppyy-cling-dev-builtin-llvm = ["cppyy-cling-dev", "cppyy-cling-dev-builtin-llvm", "builtin-llvm"]
-cppyy-cling-dev-conda-forge-llvm = ["cppyy-cling-dev", "cppyy-cling-dev-conda-forge-llvm", "conda-forge-llvm"]
+cppyy-cling-dev-builtin-llvm = ["cppyy-cling-dev-builtin-llvm", "cppyy-cling-dev", "builtin-llvm"]
+cppyy-cling-dev-conda-forge-llvm = ["cppyy-cling-dev-conda-forge-llvm", "cppyy-cling-dev", "conda-forge-llvm"]
 
-# TODO: Make these environments available, see README.md
-# cppyy-backend-dev-local-builtin-llvm = [?]
-# cppyy-backend-dev-local-conda-forge-llvm = [?]
-cppyy-backend-dev-conda-forge = ["cppyy-backend-dev", "cppyy-backend-dev-conda-forge", "cppyy-cling-conda-forge"]
-cppyy-backend-dev-pypi = ["cppyy-backend-dev", "cppyy-backend-dev-pypi", "cppyy-cling-pypi"]
+cppyy-backend-dev-conda-forge = ["cppyy-backend-dev-conda-forge", "cppyy-backend-dev", "cppyy-cling-conda-forge"]
+cppyy-backend-dev-pypi = ["cppyy-backend-dev-pypi", "cppyy-backend-dev", "cppyy-cling-pypi"]
 
-# TODO: Make these environments available, see README.md
-# cpycppyy-dev-local-builtin-llvm = [?]
-# cpycppyy-dev-local-conda-forge-llvm = [?]
-cpycppyy-dev-conda-forge = ["cpycppyy-dev", "cpycppyy-dev-conda-forge", "cppyy-cling-conda-forge", "cppyy-backend-conda-forge"]
-cpycppyy-dev-pypi = ["cpycppyy-dev", "cpycppyy-dev-pypi", "cppyy-cling-pypi", "cppyy-backend-pypi"]
+cpycppyy-dev-conda-forge = ["cpycppyy-dev-conda-forge", "cpycppyy-dev", "cppyy-cling-conda-forge", "cppyy-backend-conda-forge"]
+cpycppyy-dev-pypi = ["cpycppyy-dev-pypi", "cpycppyy-dev", "cppyy-cling-pypi", "cppyy-backend-pypi"]
 
-# TODO: Make these environments available, see README.md
-# cppyy-dev-local-builtin-llvm = [?]
-# cppyy-dev-local-conda-forge-llvm = [?]
-cppyy-dev-conda-forge = ["cppyy-dev", "cppyy-dev-conda-forge", "cppyy-cling-conda-forge", "cppyy-backend-conda-forge", "cpycppyy-conda-forge"]
-cppyy-dev-pypi = ["cppyy-dev", "cppyy-dev-pypi", "cppyy-cling-pypi", "cppyy-backend-pypi", "cpycppyy-pypi"]
+cppyy-dev-conda-forge = ["cppyy-dev-conda-forge", "cppyy-dev", "cppyy-cling-conda-forge", "cppyy-backend-conda-forge", "cpycppyy-conda-forge"]
+cppyy-dev-pypi = ["cppyy-dev-pypi", "cppyy-dev", "cppyy-cling-pypi", "cppyy-backend-pypi", "cpycppyy-pypi"]
 
-cppyy-pypi = ["cppyy-dev", "cppyy-pypi"]
-cppyy-conda-forge = ["cppyy-dev", "cppyy-conda-forge"]
+dev-builtin-llvm = ["dev-builtin-llvm", "cppyy-cling-dev", "builtin-llvm", "cppyy-backend-dev", "cpycppyy-dev", "cppyy-dev"]
+dev-conda-forge-llvm = ["dev-conda-forge-llvm", "cppyy-cling-dev", "conda-forge-llvm", "cppyy-backend-dev", "cpycppyy-dev", "cppyy-dev"]
+
+cppyy-pypi = ["cppyy-pypi", "cppyy-dev"]
+cppyy-conda-forge = ["cppyy-conda-forge", "cppyy-dev"]
 
 ################
 # DEPENDENCIES #
@@ -313,6 +307,12 @@ cwd = "downstream/sage-flatsurf"
 depends-on = ["install-sage-flatsurf"]
 cmd = "sage -tp --long --optional=sage,gmpxxyy,pyeantic,pyexactreal,pyflatsurf flatsurf && pytest test"
 cwd = "downstream/sage-flatsurf"
+
+[feature.dev-builtin-llvm.tasks.install]
+depends-on = ["configure-cppyy-cling-patched-builtin-llvm", "build-cppyy-cling-patched", "install-cppyy-cling-patched", "install-cppyy-backend-from-patched", "install-cpycppyy-from-patched", "install-cppyy-from-patched"]
+
+[feature.dev-conda-forge-llvm.tasks.install]
+depends-on = ["configure-cppyy-cling-patched-conda-forge-llvm", "build-cppyy-cling-patched", "install-cppyy-cling-patched", "install-cppyy-backend-from-patched", "install-cpycppyy-from-patched", "install-cppyy-from-patched"]
 
 [feature.cppyy-dev-conda-forge.tasks.install]
 depends-on = ["install-cppyy-from-patched"]

@@ -47,16 +47,13 @@ We provide the following pixi environments:
   `upstream/cppyy-backend/cling` configured to build its own cppyy-patched
   LLVM.
 * `cppyy-cling-dev-conda-forge-llvm` same but using an LLVM build from conda-forge.
-* `cppyy-backend-dev-local-builtin-llvm` to work on `patched/cppyy-backend` or
-  `upstream/cppyy-backend` with `cppyy-cling` provided by `patched/cppyy-cling`
-  configured to use the builtin cppyy-patched LLVM.
-* `cppyy-backend-dev-local-conda-forge-llvm` same but using
-  `patched/cppyy-cling` built to use conda-forge's LLVM.
 * `cppyy-backend-dev-conda-forge` to work on `patched/cppyy-backend` or
   `upstream/cppyy-backend/clingwrapper` with `cppyy-cling` provided by conda-forge.
 * `cppyy-backend-dev-pypi` same but with `cppyy-cling` provided by PyPI.
 * `cpycppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
 * `cppyy-*`, same as the corresponding `cppyy-backend-dev-*` environments
+* `dev-builtin-llvm`, to work on any of the `patched/` projects while providing all dependencies from there as well.
+* `dev-conda-forge-llvm`, same as `dev-builtin-llvm` but using conda-forge's LLVM.
 * `cppyy-pypi`, an installation of vanilla cppyy as published on PyPI
 * `cppyy-conda-forge`, an installation of cppyy as published on conda-forge
 
@@ -103,6 +100,10 @@ TODO
 * `pixi run test-gmpxxyy` -- to run the `gmpxxyy` test suite from `downstream/`
 * `pixi run install-gmpxxyy` -- to install `gmpxxyy` from `downstream/`, assuming that its dependencies are already installed
 * Same `install-*` and `test-*` for `e-antic`, `exact-real`, `intervalxt`, `flatsurf`, and `sage-flatsurf`
+
+### dev-* Tasks
+
+All of the above, except that `install` will install `cppyy-cling`, `cppyy-backend`, `CPyCppyy`, and `cppyy` from `patched/`.
 
 # Upstream Repository Layout and Build Process
 
