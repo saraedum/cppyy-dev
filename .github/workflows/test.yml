@@ -204,6 +204,17 @@ jobs:
                 expected="failure"
               fi
               ;;
+            "flatsurf test suite")
+              # Known errors:
+              # * cppyy-{dev-,}pypi/ubuntu-24.04 fails to convert a `lambda` to the `std::function` below.
+              #   ```
+              #   std::optional<flatsurf::Deformation<flatsurf::FlatTriangulation<__gmp_expr<__mpq_struct[1],__mpq_struct[1]>>>> flatsurf::isomorphism(const flatsurf::FlatTriangulation<__gmp_expr<__mpq_struct[1],__mpq_struct[1]>>& preimage, const flatsurf::FlatTriangulation<__gmp_expr<__mpq_struct[1],__mpq_struct[1]>>& image, flatsurf::ISOMORPHISM kind, std::function<bool(flatsurf::IsomorphismFilterMatrix<__gmp_expr<__mpq_struct[1],__mpq_struct[1]>>)> filter_matrix, std::function<bool(flatsurf::HalfEdge,flatsurf::HalfEdge)> filter_map) =>
+              #   TypeError: could not convert argument 4
+              #   ```
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ && "${{ matrix.on }}" == "ubuntu-24.04" ]]; then
+                expected="failure"
+              fi
+              ;;
           esac
           echo "$expected"
         }
