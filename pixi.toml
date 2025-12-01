@@ -113,6 +113,9 @@ gcc = "<12"
 #########
 # TASKS #
 #########
+[tasks.clean]
+cmd = "git clean -fdx; git submodule foreach --recursive git clean -fdx"
+
 [feature.cppyy-cling-dev.tasks.create-src-directory]
 cmd = "./create_src_directory.py"
 cwd = "upstream/cppyy-backend/cling"
