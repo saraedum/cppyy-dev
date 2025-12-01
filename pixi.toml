@@ -311,7 +311,7 @@ cwd = "downstream/sage-flatsurf"
 
 [feature.cppyy-dev.tasks.test-sage-flatsurf]
 depends-on = ["install-sage-flatsurf"]
-cmd = "sage -tp flatsurf"
+cmd = "sage -tp --long --optional=sage,gmpxxyy,pyeantic,pyexactreal,pyflatsurf flatsurf && pytest test"
 cwd = "downstream/sage-flatsurf"
 
 [feature.cppyy-dev-conda-forge.tasks.install]
