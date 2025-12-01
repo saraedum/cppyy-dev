@@ -122,7 +122,12 @@ jobs:
       run: pixi run test
       continue-on-error: true
     - name: Prepare for downstream tests
-      run: pixi run install-flatsurf-suite-dependencies
+      uses: nick-fields/retry@v3
+      with:
+        # Retry mamba install since sometimes we get network timeouts in CI here.
+        max_attempts: 5
+        retry_on: error
+        command: pixi run install-flatsurf-suite-dependencies
     - name: Run cppyythonizations test suite
       id: test-cppyythonizations
       run: pixi run test-cppyythonizations
