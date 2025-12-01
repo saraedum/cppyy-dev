@@ -202,7 +202,7 @@ depends-on = ["install-cpycppyy-from-patched"]
 # In cppyy-pypi, 36 failed, quite a few segfaults.
 # In cppyy-conda-forge, 31 failed, quite a few segfaults.
 # In CI, tests sometimes hang, so we set a timeout to terminate them anyway.
-cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest --isolate --isolate-timeout=60 -n$(nproc || sysctl -n hw.ncpu)"
+cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest -p pytest_isolate -p pytest_xdist --isolate --isolate-timeout=60 -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "upstream/cppyy/test"
 
 [feature.cppyy-dev.tasks.install-cppyy-from-pypi]
@@ -224,7 +224,7 @@ depends-on = ["install-flatsurf-suite-dependencies", "install-gmpxxyy", "install
 cmd = "mamba install autoconf automake benchmark boost-cpp fmt=11.'*' gmpxxll hatchling ipywidgets libtool make matplotlib-base more-itertools ppl ruamel.yaml sagelib surface-dynamics && pip install bidict realalg"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
-cmd = "pytest --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
+cmd = "pytest -p pytest_isolate -p pytest_xdist --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "downstream/cppyythonizations"
 
 [feature.cppyy-dev.tasks.install-cppyythonizations]
@@ -333,6 +333,8 @@ CMAKE_ARGS = "-DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX"
 # runtime_cxxmodules: (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build; also disabled by upstream's setup.py
 # CMAKE_CXX_STANDARD: clang at least is using some C++17 features
 CMAKE_ARGS_CPPYY_CLING = "-Dbuiltin_cling=ON -Druntime_cxxmodules=OFF -DCMAKE_CXX_STANDARD=17"
+# pytest-isolate breaks some tests due to: https://github.com/gilfree/pytest-isolate/issues/12 so we want to specify the plugins we want explicitly instead
+PYTEST_DISABLE_PLUGIN_AUTOLOAD = "1"
 
 [feature.cppyy-cling-dev.activation.env]
 # enum-constexpr-conversion: to ignore this compile error on modern compilers: integer value 536870912 is outside the valid range of values [0, 63] for the enumeration type 'EProperty'
