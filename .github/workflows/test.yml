@@ -126,6 +126,7 @@ jobs:
       with:
         # Retry mamba install since sometimes we get network timeouts in CI here.
         max_attempts: 5
+        timeout_minutes: 15
         retry_on: error
         command: pixi run install-flatsurf-suite-dependencies
     - name: Run cppyythonizations test suite
