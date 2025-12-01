@@ -64,6 +64,11 @@ self-explanatory, see `pixi.toml` for details.
 
 Here are some of the most important ones
 
+### Generic Tasks
+
+* `pixi run clean` -- to run `git clean -fdx` recursively in all submodules
+* `pixi run reset` -- to run `git reset --hard` and update submodules in all submodules
+
 ### feedstock Tasks
 
 TODO
