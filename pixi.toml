@@ -336,7 +336,10 @@ CMAKE_CXX_COMPILER_LAUNCHER = "ccache"
 # builtin_cling: We want to build cling. That's why we're here.
 # runtime_cxxmodules: (whatever that might be) leads to "error: unknown argument: '-fmodule-name'" during the build; also disabled by upstream's setup.py
 # CMAKE_CXX_STANDARD: clang at least is using some C++17 features
-CMAKE_ARGS_CPPYY_CLING = "-Dbuiltin_cling=ON -Druntime_cxxmodules=OFF -DCMAKE_CXX_STANDARD=17"
+# CMAKE_BUILD_TYPE: enable debug symbols but build release like upstream does
+# LLVM_ENABLE_ASSERTIONS: work around assertion errors; upstream does the same
+# LLVM_ENABLE_TERMINFO: we do not build a REPL Cling; upstream does the same
+CMAKE_ARGS_CPPYY_CLING = "-Dbuiltin_cling=ON -Druntime_cxxmodules=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_ENABLE_ASSERTIONS=OFF -DLLVM_ENABLE_TERMINFO=OFF"
 # pytest-isolate breaks some tests due to: https://github.com/gilfree/pytest-isolate/issues/12 so we want to specify the plugins we want explicitly instead
 PYTEST_DISABLE_PLUGIN_AUTOLOAD = "1"
 
