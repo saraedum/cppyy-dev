@@ -225,10 +225,10 @@ jobs:
           if [ "$outcome" = "skipped" ]; then
             return
           elif [ "$outcome" != "$expected" ]; then
-            echo "::error title=${label}::${label} ${outcome} (expected ${expected})"
+            echo "::error title=${label}::${label} ${outcome} in ${{ matrix.environment }}/${{ matrix.on }} (expected ${expected})"
             failed=1
           elif [ "$outcome" = "failure" ]; then
-            echo "::warning title=${label}::${label} failed as expected"
+            echo "::warning title=${label}::${label} failed as expected in ${{ matrix.environment }}/${{ matrix.on }}"
           fi
         }
 
