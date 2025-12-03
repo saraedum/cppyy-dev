@@ -164,10 +164,7 @@ jobs:
       run: pixi run install-intervalxt
     - name: Run flatsurf test suite
       id: test-flatsurf
-      run: |
-        # Debug why missing symbol called happens when testing flatsurf on macos-14
-        export DYLD_PRINT_BINDINGS=1
-        pixi run test-flatsurf
+      run: pixi run test-flatsurf
       continue-on-error: true
     - name: Install flatsurf for later tests
       run: pixi run install-flatsurf
@@ -206,11 +203,6 @@ jobs:
               # Known errors:
               # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
               if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
-                expected="failure"
-              fi
-              # Tests fail with Equality of Equivalence Classes is Consistent - long long
-              # dyld[...]: missing symbol called
-              if [[ "${{ matrix.on }}" == "macos-14" ]]; then
                 expected="failure"
               fi
               ;;
