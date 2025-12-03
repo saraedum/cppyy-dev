@@ -196,7 +196,13 @@ depends-on = ["install-cpycppyy-from-patched"]
 [feature.cpycppyy-dev-pypi.tasks.install]
 depends-on = ["install-cpycppyy-from-patched"]
 
+[tasks._precompiled-headers]
+# Make sure that cppyy's precompiled headers have been regenerated. This is important when running cppyy in parallel in several processes, e.g., during parallel testing.
+# cppyy doesn't crash immediately when multiple processes try to regenerate the headers but some features do not seem to work properly in that case.
+cmd = "python -c 'import cppyy'"
+
 [feature.cppyy-dev.tasks.test]
+depends-on = ["_precompiled-headers"]
 # Tests do not pass, we should check with upstream what we're doing wrong:
 # In cppyy-pypi, 36 failed, quite a few segfaults.
 # In cppyy-conda-forge, 31 failed, quite a few segfaults.
@@ -222,6 +228,7 @@ depends-on = ["install-flatsurf-suite-dependencies", "install-gmpxxyy", "install
 cmd = "mamba install -y autoconf automake benchmark boost-cpp fmt gmpxxll hatchling ipywidgets libtool make matplotlib-base more-itertools parallel ppl ruamel.yaml sagelib surface-dynamics && pip install bidict realalg"
 
 [feature.cppyy-dev.tasks.test-cppyythonizations]
+depends-on = ["_precompiled-headers"]
 cmd = "pytest -p pytest_isolate -p xdist --isolate --doctest-modules -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "downstream/cppyythonizations"
 
@@ -239,7 +246,7 @@ cmd = "make install"
 cwd = "downstream/gmpxxyy"
 
 [feature.cppyy-dev.tasks.test-gmpxxyy]
-depends-on = ["build-gmpxxyy"]
+depends-on = ["_precompiled-headers", "build-gmpxxyy"]
 cmd = "make check"
 cwd = "downstream/gmpxxyy"
 
@@ -253,7 +260,7 @@ cmd = "make install"
 cwd = "downstream/e-antic"
 
 [feature.cppyy-dev.tasks.test-e-antic]
-depends-on = ["build-e-antic"]
+depends-on = ["_precompiled-headers", "build-e-antic"]
 cmd = "make check"
 cwd = "downstream/e-antic"
 
@@ -267,7 +274,7 @@ cmd = "make install"
 cwd = "downstream/exact-real"
 
 [feature.cppyy-dev.tasks.test-exact-real]
-depends-on = ["build-exact-real"]
+depends-on = ["_precompiled-headers", "build-exact-real"]
 cmd = "make check"
 cwd = "downstream/exact-real"
 
@@ -286,7 +293,7 @@ cmd = "make install"
 cwd = "downstream/intervalxt"
 
 [feature.cppyy-dev.tasks.test-intervalxt]
-depends-on = ["build-intervalxt"]
+depends-on = ["_precompiled-headers", "build-intervalxt"]
 cmd = "make check"
 cwd = "downstream/intervalxt"
 
@@ -300,7 +307,7 @@ cmd = "make install"
 cwd = "downstream/flatsurf"
 
 [feature.cppyy-dev.tasks.test-flatsurf]
-depends-on = ["build-flatsurf"]
+depends-on = ["_precompiled-headers", "build-flatsurf"]
 cmd = "make check"
 cwd = "downstream/flatsurf"
 
@@ -309,7 +316,7 @@ cmd = "pip install --no-deps --no-build-isolation -e ."
 cwd = "downstream/sage-flatsurf"
 
 [feature.cppyy-dev.tasks.test-sage-flatsurf]
-depends-on = ["install-sage-flatsurf"]
+depends-on = ["_precompiled-headers", "install-sage-flatsurf"]
 cmd = "sage -tp --long --optional=sage,gmpxxyy,pyeantic,pyexactreal,pyflatsurf flatsurf && pytest test"
 cwd = "downstream/sage-flatsurf"
 
