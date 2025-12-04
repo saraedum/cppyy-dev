@@ -105,31 +105,6 @@ jobs:
             installation: install
           - environment: dev-conda-forge-llvm
             installation: install
-        exclude:
-          # cppyy-cling on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
-          - environment: cppyy-pypi
-            on: macos-15
-          # cppyy-cling on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
-          - environment: cppyy-pypi
-            on: macos-15-intel
-          # cppyy-cling on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
-          - environment: cppyy-dev-pypi
-            on: macos-15
-          # cppyy-cling on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
-          - environment: cppyy-dev-pypi
-            on: macos-15-intel
-          # the current cppyy-cling from conda-forge is not compatible with the macOS 15 SDK on non-Silicon builds; fails to import cppyy with _Float16 is not supported on this target
-          # this will possibly be fixed with https://github.com/conda-forge/cppyy-cling-feedstock/pull/79
-          - environment: cppyy-dev-conda-forge
-            on: macos-15-intel
-          # the current cppyy-cling from conda-forge is not compatible with the macOS 15 SDK on non-Silicon builds; fails to import cppyy with _Float16 is not supported on this target
-          # this will possibly be fixed with https://github.com/conda-forge/cppyy-cling-feedstock/pull/79
-          - environment: cppyy-conda-forge
-            on: macos-15-intel
-          # import cppyy hangs after saying "libc++abi: Pure virtual function called!"; I have not investigated what the issue is here
-          - environment: dev-builtin-llvm
-            on: macos-15
-
     steps:
     - uses: actions/checkout@v5
       with:
@@ -216,38 +191,6 @@ jobs:
           label="$1"
           expected="success"
           case "$label" in
-            "cppyy test suite")
-              # Currently, test fails for a variety of reasons on all builds of cppyy, see pixi.toml
-              expected="failure"
-              ;;
-            "e-antic test suite")
-              # Known errors:
-              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
-              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
-                expected="failure"
-              fi
-              ;;
-            "exact-real test suite")
-              # Known errors:
-              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
-              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
-                expected="failure"
-              fi
-              ;;
-            "flatsurf test suite")
-              # Known errors:
-              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
-              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
-                expected="failure"
-              fi
-              ;;
-            "sage-flatsurf test suite")
-              # Known errors:
-              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
-              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
-                expected="failure"
-              fi
-              ;;
           esac
           echo "$expected"
         }
