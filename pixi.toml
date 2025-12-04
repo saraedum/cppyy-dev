@@ -356,4 +356,4 @@ CXXFLAGS = "$CXXFLAGS -Wno-enum-constexpr-conversion"
 
 [feature.cppyy-cling-dev.target.osx.activation.env]
 # The clang that comes with cppyy cannot build against a modern macOS SDK so we select a compatible one.
-SDKROOT = "`xcrun --sdk macosx10.13 --sho-sdk-path`"
+SDKROOT = "`xcrun --sdk macosx10.13 --show-sdk-path`"
