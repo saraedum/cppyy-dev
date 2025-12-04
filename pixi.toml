@@ -221,9 +221,9 @@ cmd = "python -c 'import cppyy'"
 
 [feature.cppyy-dev.tasks.test]
 depends-on = ["_precompiled-headers"]
-# Tests do not pass, we should check with upstream what we're doing wrong:
-# In cppyy-pypi, 36 failed, quite a few segfaults.
-# In cppyy-conda-forge, 31 failed, quite a few segfaults.
+# Tests do not pass, we should check with upstream what we're doing wrong, see https://github.com/wlav/cppyy/issues/325
+# In cppyy-pypi, 26 failed, quite a few segfaults.
+# In cppyy-conda-forge, 26 failed, quite a few segfaults.
 # In CI, tests sometimes hang, so we set a timeout to terminate them anyway.
 cmd = "make && EXTRA_CLING_ARGS=-I$(pwd)/../../CPyCppyy/include pytest -p pytest_isolate -p xdist --isolate --isolate-timeout=60 -n$(nproc || sysctl -n hw.ncpu)"
 cwd = "upstream/cppyy/test"
