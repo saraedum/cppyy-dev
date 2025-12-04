@@ -346,66 +346,6 @@ namespace {
           sArguments.addArgument("-nostdinc++");
       }
 
-  #ifdef CLING_OSX_SYSROOT
-      {
-        std::string sysroot{CLING_OSX_SYSROOT};
-        struct stat buf;
-        if (stat(sysroot.c_str(), &buf) == 0) {
-          sArguments.addArgument("-isysroot", CLING_OSX_SYSROOT);
-        } else {
-        // attempt to find a proper sysroot, or leave it up to Clang and user
-        // defined variables such as SDKROOT and MACOSX_DEPLOYMENT_TARGET
-        // first, strip Xcode version number if any and if it does not exist
-          std::string::size_type xpos1 = sysroot.find("Xcode_");
-          std::string::size_type xpos2 = xpos1 != std::string::npos ? sysroot.find(".app", xpos1) : xpos1;
-          if (xpos1 != std::string::npos && xpos2 != std::string::npos) {
-            if (stat(sysroot.substr(0, xpos2+4).c_str(), &buf) != 0 &&
-              stat(sysroot.substr(0, xpos1  ).c_str(), &buf) == 0) {
-              sysroot = sysroot.substr(0, xpos1) + "Xcode.app" + sysroot.substr(xpos2+4, std::string::npos);
-            }
-          }
-        // similarly, strip SDK version number as needed
-          std::string::size_type pos = sysroot.rfind("SDKs/MacOSX");
-          if (pos != std::string::npos) {
-            if (getenv("MACOSX_DEPLOYMENT_TARGET"))
-              sysroot = sysroot.substr(0, pos+11) + getenv("MACOSX_DEPLOYMENT_TARGET") + ".sdk";
-            else
-              sysroot = sysroot.substr(0, pos+11)+".sdk";  // generic location
-          }
-          if (stat(sysroot.c_str(), &buf) != 0) {
-          // final attempt, query xcrun
-            std::string SdkPathQuery("xcrun --show-sdk-path");
-            if (Verbose)
-              cling::log() << "Looking for sysroot:\n  " << SdkPathQuery << "\n";
-
-            if (FILE *PF = ::popen(SdkPathQuery.c_str(), "r")) {
-              llvm::SmallVector<char, PATH_MAX> Buf;
-              Buf.resize(Buf.capacity_in_bytes());
-              while (fgets(&Buf[0], Buf.capacity_in_bytes(), PF) && Buf[0]) {
-                llvm::StringRef Path(&Buf[0]);
-                Path = Path.trim();
-                if (!Path.empty()) {
-                  if (!llvm::sys::fs::is_directory(Path)) {
-                    if (Verbose)
-                      cling::utils::LogNonExistantDirectory(Path);
-                  }
-                  else {
-                      sysroot = Path.str();
-                      break;
-                  }
-                }
-                ::pclose(PF);
-              }
-            }
-          }
-          if (stat(sysroot.c_str(), &buf) == 0)
-            sArguments.addArgument("-isysroot", sysroot.c_str());
-          else
-            cling::errs() << "Warning: sysroot \"" << sysroot << "\" not found (ignoring for now).";
-        }
-      }
-  #endif
-
 #endif // _MSC_VER
 
       if (!opts.ResourceDir && !opts.NoBuiltinInc) {
