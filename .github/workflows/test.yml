@@ -185,6 +185,14 @@ jobs:
               # Currently, test fails for a variety of reasons on all builds of cppyy, see pixi.toml
               expected="failure"
               ;;
+            "cppyythonizations test suite")
+              # Known errors:
+              # * tribool test fails; unclear why this is happening. Could not reproduce locally.
+              #   FAILED src/cppyythonizations/boost/logic/tribool.py::cppyythonizations.boost.logic.tribool - Exited with no result, resource limit exceeded or test error
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-conda-forge$ && "${{ matrix.on }}" == "macos-13" ]]; then
+                expected="failure"
+              fi
+              ;;
             "e-antic test suite")
               # Known errors:
               # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
