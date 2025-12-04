@@ -43,6 +43,7 @@ set(LLVM_LINK_COMPONENTS
   transformutils
   binaryformat
   ${LLVM_TARGETS_TO_BUILD}
+  frontendhlsl
 )
 
 # clingInterpreter depends on Options.inc to be tablegen-ed

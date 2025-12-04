@@ -23,6 +23,7 @@ set(LLVM_LINK_COMPONENTS
   target
   transformutils
   binaryformat
+  frontendhlsl
   ${LLVM_TARGETS_TO_BUILD}
 )
 
@@ -40,6 +41,8 @@ set(LIBS
   clangAST
   clangBasic
   clangLex
+  clangASTMatchers
+  clangSupport
 )
 
 find_library(DL_LIBRARY_PATH dl)
