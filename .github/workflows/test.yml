@@ -13,17 +13,17 @@ jobs:
       matrix:
         environment: ["cppyy-cling-dev-builtin-llvm", "cppyy-cling-dev-conda-forge-llvm"]
         task: ["install-cppyy-cling-from-patched", "install-cppyy-cling-from-upstream"]
-        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+        on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
         exclude:
         # We cannot build an unpatched cppyy-cling against our clang due to the misordering of static clang dependencies when linking
         - environment: cppyy-cling-dev-conda-forge-llvm
           task: install-cppyy-cling-from-upstream
-        # We cannot build an unpatched cppyy-cling on macos-14 due to RTTI being incorrect for InterpreterCallback.cpp
+        # We cannot build an unpatched cppyy-cling on macos due to RTTI being incorrect for InterpreterCallback.cpp
         - task: install-cppyy-cling-from-upstream
-          on: macos-13
-        # We cannot build an unpatched cppyy-cling on macos-14 due to RTTI being incorrect for InterpreterCallback.cpp
+          on: macos-15
+        # We cannot build an unpatched cppyy-cling on macos due to RTTI being incorrect for InterpreterCallback.cpp
         - task: install-cppyy-cling-from-upstream
-          on: macos-14
+          on: macos-15-intel
     steps:
     - uses: actions/checkout@v5
       with:
@@ -44,7 +44,7 @@ jobs:
       matrix:
         environment: ["cppyy-backend-dev-conda-forge", "cppyy-backend-dev-pypi"]
         task: ["install-cppyy-backend-from-patched", "install-cppyy-backend-from-upstream"]
-        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+        on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
     steps:
     - uses: actions/checkout@v5
       with:
@@ -65,7 +65,7 @@ jobs:
       matrix:
         environment: ["cpycppyy-dev-conda-forge", "cpycppyy-dev-pypi"]
         task: ["install-cpycppyy-from-patched", "install-cpycppyy-from-upstream"]
-        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+        on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
     steps:
     - uses: actions/checkout@v5
       with:
@@ -85,7 +85,7 @@ jobs:
       fail-fast: false
       matrix:
         environment: ["cppyy-dev-conda-forge", "cppyy-dev-pypi", "cppyy-pypi", "cppyy-conda-forge", "dev-builtin-llvm", "dev-conda-forge-llvm"]
-        on: ["ubuntu-24.04", "macos-13", "macos-14"]
+        on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
         include:
           - environment: cppyy-dev-conda-forge
             installation: install-cppyy-from-patched
@@ -98,16 +98,10 @@ jobs:
         exclude:
           # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
           - environment: cppyy-pypi
-            on: macos-13
+            on: macos-15
           # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
           - environment: cppyy-pypi
-            on: macos-14
-          # cppyythonizations tests hang for hours before they time out. Did not debug yet why this is happening yet.
-          - environment: cppyy-dev-pypi
-            on: macos-13
-          # cppyy tests hang for hours before they time out. Did not debug yet why this is happening yet.
-          - environment: dev-builtin-llvm
-            on: macos-14
+            on: macos-15-intel
     steps:
     - uses: actions/checkout@v5
       with:
@@ -187,14 +181,6 @@ jobs:
             "cppyy test suite")
               # Currently, test fails for a variety of reasons on all builds of cppyy, see pixi.toml
               expected="failure"
-              ;;
-            "cppyythonizations test suite")
-              # Known errors:
-              # * tribool test fails; unclear why this is happening. Could not reproduce locally.
-              #   FAILED src/cppyythonizations/boost/logic/tribool.py::cppyythonizations.boost.logic.tribool - Exited with no result, resource limit exceeded or test error
-              if [[ "${{ matrix.environment }}" =~ ^cppyy-conda-forge$ && "${{ matrix.on }}" == "macos-13" ]]; then
-                expected="failure"
-              fi
               ;;
             "e-antic test suite")
               # Known errors:
