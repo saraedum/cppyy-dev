@@ -90,9 +90,10 @@ cpycppyy = "==1.12.16"
 cppyy = "==3.1.2"
 
 [feature.cppyy-dev.dependencies]
+libxml2 = "*"
+make = "*"
 # We install a version of Python that is compatible with the current builds of SageMath for downstream/ testing
 python = "<3.13"
-make = "*"
 pytest = "*"
 pytest-xdist = "*"
 
