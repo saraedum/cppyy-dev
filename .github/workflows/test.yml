@@ -95,9 +95,6 @@ jobs:
             installation: install
           - environment: dev-conda-forge-llvm
             installation: install
-          # cppyythonizations tests hang for hours before they time out. Did not debug yet why this is happening.
-          - environment: cppyy-dev-pypi
-            on: macos-13
         exclude:
           # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
           - environment: cppyy-pypi
@@ -105,6 +102,9 @@ jobs:
           # cppyy on PyPI vendors a very old clang that is incompatible with any libcxx that would be compatible with the relevant packages that we need from conda-forge.
           - environment: cppyy-pypi
             on: macos-14
+          # cppyythonizations tests hang for hours before they time out. Did not debug yet why this is happening yet.
+          - environment: cppyy-dev-pypi
+            on: macos-13
     steps:
     - uses: actions/checkout@v5
       with:
