@@ -55,6 +55,9 @@ jobs:
         environment: ["cppyy-backend-dev-conda-forge", "cppyy-backend-dev-pypi"]
         task: ["install-cppyy-backend-from-patched", "install-cppyy-backend-from-upstream"]
         on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
+        exclude:
+          # Until a new cppyy-cling has been released on conda-forge, we cannot build against it here.
+          - environment: "cppyy-backend-dev-conda-forge"
     steps:
     - uses: actions/checkout@v5
       with:
@@ -76,6 +79,9 @@ jobs:
         environment: ["cpycppyy-dev-conda-forge", "cpycppyy-dev-pypi"]
         task: ["install-cpycppyy-from-patched", "install-cpycppyy-from-upstream"]
         on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
+        exclude:
+          # Until a new cppyy-backend has been released on conda-forge, we cannot build against it here.
+          - environment: "cpycppyy-dev-conda-forge"
     steps:
     - uses: actions/checkout@v5
       with:
@@ -105,6 +111,11 @@ jobs:
             installation: install
           - environment: dev-conda-forge-llvm
             installation: install
+        exclude:
+          # Until a new cpycppyy has been released on conda-forge, we cannot build against it here.
+          - environment: "cppyy-dev-conda-forge"
+          # Until cppyy has been released on conda-forge, we cannot test it here.
+          - environment: "cppyy-conda-forge"
     steps:
     - uses: actions/checkout@v5
       with:
