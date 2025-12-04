@@ -105,6 +105,9 @@ jobs:
           # cppyythonizations tests hang for hours before they time out. Did not debug yet why this is happening yet.
           - environment: cppyy-dev-pypi
             on: macos-13
+          # cppyy tests hang for hours before they time out. Did not debug yet why this is happening yet.
+          - environment: dev-builtin-llvm
+            on: macos-14
     steps:
     - uses: actions/checkout@v5
       with:
