@@ -52,3 +52,6 @@
 [submodule "downstream/sage-flatsurf"]
 	path = downstream/sage-flatsurf
 	url = https://github.com/flatsurf/sage-flatsurf.git
+[submodule "feedstocks/conda-forge-ci-setup-feedstock"]
+	path = feedstocks/conda-forge-ci-setup-feedstock
+	url = https://github.com/conda-forge/conda-forge-ci-setup-feedstock
