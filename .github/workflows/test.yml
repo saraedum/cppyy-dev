@@ -36,7 +36,7 @@ jobs:
     - name: Run install macOS SDK
       run: |
         pixi run install-osx-sdk 13.3
-        echo "export SDKROOT='$(dirname "${SDKROOT}")/MacOSX13.3.sdk'" >> "${GITHUB_ENV}"
+        echo "SDKROOT='$(dirname "${SDKROOT}")/MacOSX13.3.sdk'" >> "${GITHUB_ENV}"
       if: ${{ startsWith(matrix.on, 'macos') }}
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.task }}
@@ -119,7 +119,7 @@ jobs:
     - name: Run install macOS SDK
       run: |
         pixi run install-osx-sdk 13.3
-        echo "export SDKROOT='$(dirname "${SDKROOT}")/MacOSX13.3.sdk'" >> "${GITHUB_ENV}"
+        echo "SDKROOT='$(dirname "${SDKROOT}")/MacOSX13.3.sdk'" >> "${GITHUB_ENV}"
       if: ${{ startsWith(matrix.on, 'macos') }}
     - name: Pin installed cppyy
       run: mamba list --json |  jq -r '.[] | select(.name=="cppyy") | "\(.name) ==\(.version)"' > $CONDA_PREFIX/conda-meta/pinned
