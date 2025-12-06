@@ -103,8 +103,8 @@ jobs:
         environment: ["cppyy-dev-conda-forge", "cppyy-dev-pypi", "cppyy-pypi", "cppyy-conda-forge", "dev-builtin-llvm", "dev-conda-forge-llvm"]
         on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
         include:
-          - environment: cppyy-dev-conda-forge
-            installation: install-cppyy-from-patched
+          # - environment: cppyy-dev-conda-forge
+          #   installation: install-cppyy-from-patched
           - environment: cppyy-dev-pypi
             installation: install-cppyy-from-patched
           - environment: dev-builtin-llvm
