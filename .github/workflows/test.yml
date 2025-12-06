@@ -30,6 +30,7 @@ jobs:
         submodules: recursive
     - uses: prefix-dev/setup-pixi@v0.9.3
       with:
+        pixi-version: v0.59.0
         run-install: false
     - name: Run install macOS SDK
       run: pixi run install-osx-sdk
@@ -56,6 +57,7 @@ jobs:
         submodules: recursive
     - uses: prefix-dev/setup-pixi@v0.9.3
       with:
+        pixi-version: v0.59.0
         environments: ${{ matrix.environment }}
         activate-environment: true
     - name: Run install task
@@ -76,6 +78,7 @@ jobs:
         submodules: recursive
     - uses: prefix-dev/setup-pixi@v0.9.3
       with:
+        pixi-version: v0.59.0
         environments: ${{ matrix.environment }}
         activate-environment: true
     - name: Run install task
@@ -111,6 +114,7 @@ jobs:
         submodules: recursive
     - uses: prefix-dev/setup-pixi@v0.9.3
       with:
+        pixi-version: v0.59.0
         run-install: false
     - name: Run install macOS SDK
       run: pixi run install-osx-sdk
