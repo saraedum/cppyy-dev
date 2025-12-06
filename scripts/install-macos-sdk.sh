@@ -38,5 +38,3 @@ mkdir -p "${SDKROOT}"
 # Delete existing SDK, or symlink , e.g. MacOSX15.5.sdk -> MacOSX.sdk
 rm -rf "${SDKROOT}"
 tar -xf MacOSX${MACOSX_SDK_VERSION}.sdk.tar.xz -C "$(dirname "${SDKROOT}")"
-
-echo "export SDKROOT='${SDKROOT}'" >> "${GITHUB_ENV}"
