@@ -356,7 +356,3 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD = "1"
 [feature.cppyy-cling-dev.activation.env]
 # enum-constexpr-conversion: to ignore this compile error on modern compilers: integer value 536870912 is outside the valid range of values [0, 63] for the enumeration type 'EProperty'
 CXXFLAGS = "$CXXFLAGS -Wno-enum-constexpr-conversion"
-
-[feature.cppyy-cling-dev.target.osx.activation.env]
-# The clang that comes with cppyy cannot build against a modern macOS SDK so we select a compatible one.
-SDKROOT = "`xcrun --sdk macosx10.13 --show-sdk-path`"
