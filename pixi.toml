@@ -120,7 +120,10 @@ cmd = "git clean -fdx; git submodule foreach --recursive git clean -fdx"
 cmd = "git reset --hard && git submodule foreach --recursive git reset --hard && git submodule update --init"
 
 [target.osx.tasks.install-osx-sdk]
-cmd = "MACOSX_DEPLOYMENT_TARGET=13.3 OSX_SDK_DIR=$(xcrun --show-sdk-path) sh feedstocks/conda-forge-ci-setup-feedstock/recipe/download_osx_sdk.sh"
+args = [
+    { "arg" = "version" }
+]
+cmd = "scripts/install-macos-sdk.sh {{ version }}"
 
 [feature.cppyy-cling-dev.tasks.create-src-directory]
 cmd = "./create_src_directory.py"

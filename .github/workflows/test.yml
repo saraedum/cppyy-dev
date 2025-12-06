@@ -31,14 +31,11 @@ jobs:
     - uses: prefix-dev/setup-pixi@v0.9.3
       with:
         pixi-version: v0.59.0
-        run-install: false
-    - name: Run install macOS SDK
-      run: pixi run install-osx-sdk
-      if: ${{ startsWith(matrix.on, 'macos') }}
-    - uses: prefix-dev/setup-pixi@v0.9.3
-      with:
         environments: ${{ matrix.environment }}
         activate-environment: true
+    - name: Run install macOS SDK
+      run: pixi run install-osx-sdk 13.3
+      if: ${{ startsWith(matrix.on, 'macos') }}
     - name: Run install task
       run: VERBOSE=1 pixi run ${{ matrix.task }}
     - uses: flatsurf/actions/show-logs@main
@@ -115,14 +112,11 @@ jobs:
     - uses: prefix-dev/setup-pixi@v0.9.3
       with:
         pixi-version: v0.59.0
-        run-install: false
-    - name: Run install macOS SDK
-      run: pixi run install-osx-sdk
-      if: ${{ startsWith(matrix.on, 'macos') }}
-    - uses: prefix-dev/setup-pixi@v0.9.3
-      with:
         environments: ${{ matrix.environment }}
         activate-environment: true
+    - name: Run install macOS SDK
+      run: pixi run install-osx-sdk 13.3
+      if: ${{ startsWith(matrix.on, 'macos') }}
     - name: Pin installed cppyy
       run: mamba list --json |  jq -r '.[] | select(.name=="cppyy") | "\(.name) ==\(.version)"' > $CONDA_PREFIX/conda-meta/pinned
       if: ${{ matrix.environment == 'cppyy-conda-forge' }}
