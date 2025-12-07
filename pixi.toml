@@ -63,7 +63,7 @@ libcxx = "<19"
 libcxx = "<19"
 
 [feature.conda-forge-llvm.dependencies]
-clangdev = { version="13.*", build="root_63004*" }
+clangdev = { version="13.*", build="root_63008*" }
 
 [feature.cppyy-cling-conda-forge.dependencies]
 cppyy-cling = "==6.30.0"
