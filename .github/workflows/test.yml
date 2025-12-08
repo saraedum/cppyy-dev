@@ -139,11 +139,16 @@ jobs:
         pixi-version: v0.59.0
         environments: ${{ matrix.environment }}
         activate-environment: true
-    - name: Run install macOS SDK
+    - name: Run install macOS SDK (x86_64)
       run: |
         pixi run install-osx-sdk 10.13
         echo "SDKROOT='$(dirname "${SDKROOT}")/MacOSX10.13.sdk'" >> "${GITHUB_ENV}"
-      if: ${{ startsWith(matrix.on, 'macos') }}
+      if: ${{ matrix.on == 'macos-15-intel' }}
+    - name: Run install macOS SDK (arm64)
+      run: |
+        pixi run install-osx-sdk 11.0
+        echo "SDKROOT='$(dirname "${SDKROOT}")/MacOSX11.0.sdk'" >> "${GITHUB_ENV}"
+      if: ${{ matrix.on == 'macos-15' }}
     - name: Pin installed cppyy
       run: mamba list --json |  jq -r '.[] | select(.name=="cppyy") | "\(.name) ==\(.version)"' > $CONDA_PREFIX/conda-meta/pinned
       if: ${{ matrix.environment == 'cppyy-conda-forge' }}
