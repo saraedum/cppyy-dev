@@ -8,7 +8,13 @@ MACOSX_SDK_VERSION="${1:-10.13}"
 
 echo "Downloading ${MACOSX_SDK_VERSION} SDK"
 
-curl -L --output MacOSX${MACOSX_SDK_VERSION}.sdk.tar.xz "https://github.com/alexey-lysiuk/macos-sdk/releases/download/${MACOSX_SDK_VERSION}/MacOSX${MACOSX_SDK_VERSION}.tar.xz"
+if [[ $(echo "${MACOSX_SDK_VERSION}" | cut -d "." -f 1) -gt 11 ]]; then
+    url="https://github.com/alexey-lysiuk/macos-sdk/releases/download/${MACOSX_SDK_VERSION}/MacOSX${MACOSX_SDK_VERSION}.tar.xz"
+else
+    url="https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX${MACOSX_SDK_VERSION}.sdk.tar.xz"
+fi
+
+curl -L --output MacOSX${MACOSX_SDK_VERSION}.sdk.tar.xz "$url"
 
 sdk_sha256=$(
     case "${MACOSX_SDK_VERSION}" in
