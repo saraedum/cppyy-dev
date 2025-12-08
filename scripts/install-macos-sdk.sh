@@ -3,8 +3,8 @@ set -euxo pipefail
 
 # Hashes and some bits from conda-forge's download_osx_sdk.sh script (BSD-3-Clause licensed)
 
-# Default to installing 13.3 which is the default on conda-forge.
-MACOSX_SDK_VERSION="${1:-13.3}"
+# Default to installing 10.13 which is the default on conda-forge.
+MACOSX_SDK_VERSION="${1:-10.13}"
 
 echo "Downloading ${MACOSX_SDK_VERSION} SDK"
 
