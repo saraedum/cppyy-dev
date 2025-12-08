@@ -32,7 +32,7 @@ cppyy-conda-forge = ["cppyy-conda-forge", "cppyy-dev"]
 ccache = "*"
 cxx-compiler = "*"
 jq = "*"
-mamba = ">=2.4"
+mamba = ">=2.3"
 pip = "*"
 # Use a version of setuptools that installs CPyCppyy headers into CPyCppyy/ and not into cpycppyy/, i.e., work around https://github.com/wlav/cppyy/issues/292.
 # This does not fix installing something as a pypi-dependencies here since pixi uses a more modern setuptools.
