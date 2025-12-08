@@ -56,11 +56,11 @@ zlib = "*"
 
 [feature.builtin-llvm.target.osx.dependencies]
 # cppyy-cling vendors clang 13. However, recent versions of libcxx do not support such an old clang and fail with "Libc++ only supports Clang 17 and later".
-libcxx = "<19"
+libcxx = "<18"
 
 [feature.cppyy-pypi.target.osx.dependencies]
 # cppyy-cling vendors clang 13. However, recent versions of libcxx do not support such an old clang and fail with "Libc++ only supports Clang 17 and later".
-libcxx = "<19"
+libcxx = "<18"
 
 [feature.conda-forge-llvm.dependencies]
 clangdev = { version="13.*", build="root_63008*" }
