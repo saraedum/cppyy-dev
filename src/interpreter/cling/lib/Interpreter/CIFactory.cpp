@@ -285,48 +285,14 @@ namespace {
 
         SmallString<2048> buffer;
 
-  #ifdef _LIBCPP_VERSION
-        // Try to use a version of clang that is located next to cling
-        // in case cling was built with a new/custom libc++
-        std::string clang = llvm::sys::path::parent_path(clingBin).str();
-        buffer.assign(clang);
-        llvm::sys::path::append(buffer, "clang");
-        clang.assign(&buffer[0], buffer.size());
-
-        if (llvm::sys::fs::is_regular_file(clang)) {
-          if (!opts.StdLib) {
-  #if defined(_LIBCPP_VERSION)
-            clang.append(" -stdlib=libc++");
-  #elif defined(__GLIBCXX__)
-            clang.append(" -stdlib=libstdc++");
-  #endif
-          }
-          ReadCompilerIncludePaths(clang.c_str(), buffer, sArguments, Verbose);
-        }
-  #endif // _LIBCPP_VERSION
-
-  // First try the relative path 'g++'
-  #ifdef CLING_CXX_RLTV
-        if (sArguments.empty())
-          ReadCompilerIncludePaths(CLING_CXX_RLTV, buffer, sArguments, Verbose);
-  #endif
-  // Then try the include directory cling was built with
-  #ifdef CLING_CXX_INCL
-        if (sArguments.empty())
-          AddCxxPaths(CLING_CXX_INCL, sArguments, Verbose);
-  #endif
-  // Finally try the absolute path i.e.: '/usr/bin/g++'
-  #ifdef CLING_CXX_PATH
-        if (sArguments.empty())
-          ReadCompilerIncludePaths(CLING_CXX_PATH, buffer, sArguments, Verbose);
-  #endif
+        assert(getenv("CXX") != NULL && "CXX environment variable must be set");
+        ReadCompilerIncludePaths(getenv("CXX"), buffer, sArguments, Verbose);
 
         if (sArguments.empty()) {
           // buffer is a copy of the query string that failed
           cling::errs() << "ERROR in cling::CIFactory::createCI(): cannot extract"
                           " standard library include paths!\n";
 
-  #if defined(CLING_CXX_PATH) || defined(CLING_CXX_RLTV)
           // Only when ReadCompilerIncludePaths called do we have the command
           // Verbose has already printed the command
           if (!Verbose)
@@ -335,13 +301,6 @@ namespace {
           cling::errs() << "Results was:\n";
           const int ExitCode = system(buffer.c_str());
           cling::errs() << "With exit code " << ExitCode << "\n";
-  #elif !defined(CLING_CXX_INCL)
-          // Technically a valid configuration that just wants to use libClangs
-          // internal header detection, but for now give a hint about why.
-          cling::errs() << "CLING_CXX_INCL, CLING_CXX_PATH, and CLING_CXX_RLTV"
-                          " are undefined, there was probably an error during"
-                          " configuration.\n";
-  #endif
         } else
           sArguments.addArgument("-nostdinc++");
       }
