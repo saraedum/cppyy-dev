@@ -56,18 +56,6 @@ zlib = "*"
 
 [feature.builtin-llvm.dependencies]
 
-[feature.cppyy-cling-dev.target.osx.dependencies]
-# cppyy-cling vendors clang 13. However, recent versions of libcxx do not support such an old clang and fail with "Libc++ only supports Clang 17 and later".
-libcxx-devel = "<18"
-
-[feature.cppyy-cling-pypi.target.osx.dependencies]
-# cppyy-cling vendors clang 13. However, recent versions of libcxx do not support such an old clang and fail with "Libc++ only supports Clang 17 and later".
-libcxx-devel = "<18"
-
-[feature.cppyy-pypi.target.osx.dependencies]
-# cppyy-cling vendors clang 13. However, recent versions of libcxx do not support such an old clang and fail with "Libc++ only supports Clang 17 and later".
-libcxx-devel = "<18"
-
 [feature.conda-forge-llvm.dependencies]
 # Upstream uses 6.32.8. However we have no root build for that LLVM so we use the next best.
 clangdev = { version="16.*", build="root_63216*" }
@@ -110,16 +98,6 @@ pytest-xdist = "*"
 
 [feature.cppyy-dev.pypi-dependencies]
 pytest-isolate = "*"
-
-[feature.cppyy-pypi.target.linux.dependencies]
-# Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285 and https://github.com/llvm/llvm-project/issues/52696#issuecomment-1010369642
-# So in environments where we use the vendored clang, we need to make sure to use an old stdlib (or force std=c++17.)
-gcc = "<12"
-
-[feature.cppyy-dev-pypi.target.linux.dependencies]
-# Clang 13 which cppyy 3.1.2 is based upon cannot parse GCC 12 headers, see https://github.com/wlav/cppyy/issues/285 and https://github.com/llvm/llvm-project/issues/52696#issuecomment-1010369642
-# So in environments where we use the vendored clang, we need to make sure to use an old stdlib (or force std=c++17.)
-gcc = "<12"
 
 #########
 # TASKS #
