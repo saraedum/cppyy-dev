@@ -217,6 +217,38 @@ jobs:
           label="$1"
           expected="success"
           case "$label" in
+            "cppyy test suite")
+              # Currently, test fails for a variety of reasons on all builds of cppyy, see pixi.toml
+              expected="failure"
+              ;;
+            "e-antic test suite")
+              # Known errors:
+              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
+                expected="failure"
+              fi
+              ;;
+            "exact-real test suite")
+              # Known errors:
+              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
+                expected="failure"
+              fi
+              ;;
+            "flatsurf test suite")
+              # Known errors:
+              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
+                expected="failure"
+              fi
+              ;;
+            "sage-flatsurf test suite")
+              # Known errors:
+              # * CPyCppyy headers are installed into cpycppyy/ by modern setuptools instead of CPyCppyy/ so lots of warnings and errors during testing, see https://github.com/wlav/cppyy/issues/292
+              if [[ "${{ matrix.environment }}" =~ ^cppyy-(dev-)?pypi$ ]]; then
+                expected="failure"
+              fi
+              ;;
           esac
           echo "$expected"
         }
