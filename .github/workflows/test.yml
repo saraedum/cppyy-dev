@@ -126,6 +126,9 @@ jobs:
           - environment: "cppyy-pypi"
             on: "macos-15"
           # Installing cppyy-cling from PyPI fails on Silicon, see https://github.com/wlav/cppyy/issues/326
+          - environment: "cppyy-pypi"
+            on: "macos-15-intel"
+          # Installing cppyy-cling from PyPI fails on Silicon, see https://github.com/wlav/cppyy/issues/326
           - environment: "cppyy-dev-pypi"
             on: "macos-15"
     steps:
