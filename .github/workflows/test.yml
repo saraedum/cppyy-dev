@@ -222,10 +222,10 @@ jobs:
               ;;
             "cppyythonizations test suite")
               # Known errors:
-              # * tribool test fails; unclear why this is happening. Could not reproduce locally.
+              # * tribool test fails sometimes; unclear why this is happening. Could not reproduce locally.
               #   FAILED src/cppyythonizations/boost/logic/tribool.py::cppyythonizations.boost.logic.tribool - Exited with no result, resource limit exceeded or test error
               if [[ "${{ matrix.environment }}" =~ ^dev-builtin-llvm$ && "${{ matrix.on }}" == "macos-15-intel" ]]; then
-                expected="failure"
+                expected="flaky"
               fi
               ;;
             "e-antic test suite")
@@ -266,6 +266,8 @@ jobs:
           expected=$(expected_outcome "$label")
 
           if [ "$outcome" = "skipped" ]; then
+            return
+          elif [ "$expected" = "flaky" ]; then
             return
           elif [ "$outcome" != "$expected" ]; then
             echo "::error title=${label}::${label} ${outcome} in ${{ matrix.environment }}/${{ matrix.on }} (expected ${expected})"
