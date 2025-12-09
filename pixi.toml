@@ -58,7 +58,7 @@ zlib = "*"
 
 [feature.conda-forge-llvm.dependencies]
 # Upstream uses 6.32.8. However we have no root build for that LLVM so we use the next best.
-clangdev = { version="16.*", build="root_63216*" }
+clangdev = { version="16.*", build="root_632*" }
 
 [feature.cppyy-cling-conda-forge.dependencies]
 # TODO: Uncomment once the build is available from conda-forge
