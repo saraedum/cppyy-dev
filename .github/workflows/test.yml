@@ -131,6 +131,9 @@ jobs:
           # Installing CPyCppyy from PyPI fails on non-Silicon, see https://github.com/wlav/CPyCppyy/issues/66
           - environment: "cppyy-pypi"
             on: "macos-15-intel"
+          # import cppyy hangs after saying "libc++abi: Pure virtual function called!"; I have not investigated what the issue is here
+          - environment: dev-builtin-llvm
+            on: macos-15
     steps:
     - uses: actions/checkout@v5
       with:
