@@ -56,8 +56,6 @@ jobs:
         task: ["install-cppyy-backend-from-patched", "install-cppyy-backend-from-upstream"]
         on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
         exclude:
-          # Until a new cppyy-cling has been released on conda-forge, we cannot build against it here.
-          - environment: "cppyy-backend-dev-conda-forge"
           # Installing cppyy-cling from PyPI fails on Silicon, see https://github.com/wlav/cppyy/issues/326
           - environment: "cppyy-backend-dev-pypi"
             on: "macos-15"
@@ -83,8 +81,6 @@ jobs:
         task: ["install-cpycppyy-from-patched", "install-cpycppyy-from-upstream"]
         on: ["ubuntu-24.04", "macos-15", "macos-15-intel"]
         exclude:
-          # Until a new cppyy-backend has been released on conda-forge, we cannot build against it here.
-          - environment: "cpycppyy-dev-conda-forge"
           # Installing cppyy-cling from PyPI fails on Silicon, see https://github.com/wlav/cppyy/issues/326
           - environment: "cpycppyy-dev-pypi"
             on: "macos-15"
@@ -118,10 +114,6 @@ jobs:
           - environment: dev-conda-forge-llvm
             installation: install
         exclude:
-          # Until a new cpycppyy has been released on conda-forge, we cannot build against it here.
-          - environment: "cppyy-dev-conda-forge"
-          # Until cppyy has been released on conda-forge, we cannot test it here.
-          - environment: "cppyy-conda-forge"
           # Installing cppyy-cling from PyPI fails on Silicon, see https://github.com/wlav/cppyy/issues/326
           - environment: "cppyy-pypi"
             on: "macos-15"
